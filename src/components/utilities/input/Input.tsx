@@ -11,7 +11,7 @@ interface InputProps {
   errors: FieldErrors;
   register: UseFormRegister<FieldValues>;
   icon?: JSX.Element;
-  isIcon: boolean;
+  isIcon?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({

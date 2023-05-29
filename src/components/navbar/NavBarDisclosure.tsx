@@ -20,12 +20,8 @@ const NavBarDIsclosure = ({ name, listings }: NavBarItemType) => {
           </Disclosure.Button>
           <Disclosure.Panel className="text-gray-500">
             {listings.map((item, index) => (
-              <p className="p-1">
-                <Link
-                  href={item.link || "#"}
-                  key={index}
-                  className="hover:text-blue-600"
-                >
+              <p className="p-1" key={index}>
+                <Link href={item.link || "#"} className="hover:text-blue-600">
                   {item.title}
                 </Link>
               </p>
