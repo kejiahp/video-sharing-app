@@ -4,19 +4,24 @@ import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
 
 interface NavBarPopoverProps {
-  title: string;
+  title: string | React.JSX.Element;
   listings: { title: string; link: string }[];
+  isVertical?: boolean;
 }
 
-const NavBarPopover: React.FC<NavBarPopoverProps> = ({ title, listings }) => {
+const NavBarPopover: React.FC<NavBarPopoverProps> = ({
+  title,
+  listings,
+  isVertical,
+}) => {
   return (
     <Popover className="relative">
       {({ open }) => (
         <>
           <Popover.Button
             className={`outline-none 
-          ${open ? "bg-blue-950 text-white" : ""}
-           hover:text-pink-400 font-bold transition duration-200 p-1 rounded-sm`}
+          ${open ? "text-blue-400" : ""}
+           hover:text-blue-400 font-bold transition duration-200 p-1 rounded-sm`}
           >
             {title}
           </Popover.Button>
@@ -30,8 +35,16 @@ const NavBarPopover: React.FC<NavBarPopoverProps> = ({ title, listings }) => {
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute z-10 w-[400px] top-10">
-              <div className="grid grid-cols-3 bg-white rounded-md p-3 shadow-md">
+            <Popover.Panel
+              className={`absolute z-10 ${
+                isVertical ? "w-[120px]" : "w-[400px]"
+              } top-10`}
+            >
+              <div
+                className={`grid bg-white rounded-md p-3 shadow-md ${
+                  isVertical ? "grid-cols-1" : "grid-cols-3"
+                }`}
+              >
                 {listings.map((item, index) => (
                   <Link
                     href={item.link || "#"}

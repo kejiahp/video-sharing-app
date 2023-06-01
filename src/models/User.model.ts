@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export interface UserDocument {
+export interface IUser {
   type: string;
   username: string;
   email: string;
@@ -11,7 +11,9 @@ export interface UserDocument {
   updatedAt: Date;
 }
 
-const UserSchema = new mongoose.Schema<UserDocument>(
+type UserDocument = mongoose.Document & IUser;
+
+const UserSchema = new mongoose.Schema<IUser>(
   {
     type: {
       type: String,
@@ -25,8 +27,8 @@ const UserSchema = new mongoose.Schema<UserDocument>(
       type: String,
       unique: true,
       match: [
-        /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
-        "Username invalid, it should contain 8-20 alphanumeric letters and be unique!",
+        /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+        "Username invalid, it should contain 2-20 alphanumeric letters and be unique!",
       ],
       required: [true, "username is required"],
     },
@@ -51,7 +53,5 @@ const UserSchema = new mongoose.Schema<UserDocument>(
   { timestamps: true }
 );
 
-//@ts-ignore
-const User = mongoose.model.User || mongoose.model("User", UserSchema);
-
-export default User;
+export default (mongoose.models.User as mongoose.Model<UserDocument>) ||
+  mongoose.model("User", UserSchema);

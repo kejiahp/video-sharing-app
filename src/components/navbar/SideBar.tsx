@@ -5,6 +5,9 @@ import { Dialog } from "@headlessui/react";
 import NavBarDisclosure from "./NavBarDisclosure";
 import { NavBarItemType } from "./NavBar";
 import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
+import UserIcon from "./UserIcon";
 
 interface SideBarProps {
   mobileMenuOpen: boolean;
@@ -18,6 +21,7 @@ const SideBar: React.FC<SideBarProps> = ({
   setMobileMenuOpen,
 }) => {
   const router = useRouter();
+  const session = useSession();
 
   return (
     <Dialog
@@ -37,6 +41,9 @@ const SideBar: React.FC<SideBarProps> = ({
               alt=""
             />
           </a>
+
+          {session.status === "authenticated" ? <UserIcon /> : null}
+
           <button
             type="button"
             className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -46,7 +53,7 @@ const SideBar: React.FC<SideBarProps> = ({
             <HiXMark className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="mt-6 flow-root">
+        <div className="mt-12 flow-root">
           <div className="-my-6 divide-y divide-gray-500/10">
             {/* <div className="space-y-2 py-6">
               {navigation.map((item) => (
@@ -65,16 +72,29 @@ const SideBar: React.FC<SideBarProps> = ({
                 listings={item.listings}
               />
             ))}
+
             <div className="py-6">
-              <p
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  router.push("/login");
-                }}
-                className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-              >
-                Log in
-              </p>
+              {session.status === "authenticated" ? (
+                <p
+                  onClick={() => {
+                    signOut();
+                    toast.success("Logged Out");
+                  }}
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 cursor-pointer"
+                >
+                  Log out
+                </p>
+              ) : (
+                <p
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    router.push("/login");
+                  }}
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 cursor-pointer"
+                >
+                  Log in
+                </p>
+              )}
             </div>
           </div>
         </div>

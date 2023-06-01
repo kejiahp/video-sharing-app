@@ -9,7 +9,11 @@ export const loginschema = zod.object({
 });
 
 export const registerschema = zod.object({
-  username: zod.string().nonempty(),
+  username: zod
+    .string()
+    .nonempty()
+    .min(3, "min of 3 characters")
+    .max(20, "max fo 20"),
   email: zod.string().email().nonempty(),
   password: zod
     .string()

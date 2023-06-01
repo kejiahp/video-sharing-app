@@ -6,6 +6,10 @@ import Logo from "./Logo";
 import NavBarPopover from "./NavBarPopover";
 import SideBar from "./SideBar";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import { navigation } from "@/constants/navbar.constants";
+import { toast } from "react-hot-toast";
+import UserIcon from "./UserIcon";
 
 export type NavBarItemType = {
   name: string;
@@ -15,41 +19,10 @@ export type NavBarItemType = {
   }[];
 };
 
-const navigation = [
-  {
-    name: "Genre",
-    listings: [
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-    ],
-  },
-  {
-    name: "Movies",
-    listings: [
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-    ],
-  },
-  {
-    name: "TV Shows",
-    listings: [
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-      { title: "fallguys", link: "/about" },
-    ],
-  },
-];
-
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const session = useSession();
+  console.log(session);
 
   return (
     <>
@@ -92,14 +65,29 @@ export default function NavBar() {
               ))}
             </div>
 
-            <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-              <Link
-                href="/login"
-                className="text-sm font-semibold leading-6 text-gray-900"
-              >
-                Log in <span aria-hidden="true">&rarr;</span>
-              </Link>
-            </div>
+            {session.status === "authenticated" ? (
+              <div className="hidden lg:flex lg:flex-1 lg:justify-end gap-4 items-center">
+                <UserIcon />
+                <p
+                  className="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+                  onClick={() => {
+                    signOut();
+                    toast.success("Logged Out");
+                  }}
+                >
+                  Logout <span aria-hidden="true">&rarr;</span>
+                </p>
+              </div>
+            ) : (
+              <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+                <Link
+                  href="/login"
+                  className="text-sm font-semibold leading-6 text-gray-900 cursor-pointer"
+                >
+                  Log in <span aria-hidden="true">&rarr;</span>
+                </Link>
+              </div>
+            )}
           </nav>
           <SideBar
             mobileMenuOpen={mobileMenuOpen}

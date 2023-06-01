@@ -1,16 +1,19 @@
 "use client";
-import {
-  RegisterSchemaType,
-  registerschema,
-} from "@/schema/authentication.schema";
-import React from "react";
+import { registerschema } from "@/schema/authentication.schema";
+import React, { useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../utilities/input/Input";
 import Button from "../utilities/button/Button";
 import Link from "next/link";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Register = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -25,8 +28,17 @@ const Register = () => {
   });
 
   const onSubmitHandler: SubmitHandler<FieldValues> = (data) => {
-    const datax = data as RegisterSchemaType;
-    console.log(datax);
+    setIsLoading(true);
+    axios
+      .post("/api/register", data)
+      .then(() => {
+        toast.success("Successfully registered, you can now login");
+        router.push("/login");
+      })
+      .catch((err) => {
+        toast.error(`Something went wrong, ${err?.response?.data}`);
+      })
+      .finally(() => setIsLoading(false));
   };
   return (
     <form
@@ -60,7 +72,7 @@ const Register = () => {
         required
         errors={errors}
       />
-      <Button isSmall sec>
+      <Button isSmall sec disable={isLoading}>
         Register
       </Button>
       <div className="">

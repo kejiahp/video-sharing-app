@@ -1,6 +1,8 @@
 import NavBar from "@/components/navbar/NavBar";
 import "./globals.css";
 import { Inter } from "next/font/google";
+import ToasterContext from "@/context/ToasterContext";
+import AuthContext from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -9,7 +11,7 @@ export const metadata = {
   description: "This is a video sharing application",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -17,8 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NavBar />
-        {children}
+        <AuthContext>
+          <ToasterContext />
+          <NavBar />
+          {children}
+        </AuthContext>
       </body>
     </html>
   );

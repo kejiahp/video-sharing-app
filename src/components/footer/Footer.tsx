@@ -12,8 +12,12 @@ const Footer = () => {
               {[
                 { title: "Terms & Conditions", link: "" },
                 { title: "Privacy", link: "" },
-              ].map((item) => (
-                <FooterListItems title={item.title} link={item.link} />
+              ].map((item, index) => (
+                <FooterListItems
+                  key={index}
+                  title={item.title}
+                  link={item.link}
+                />
               ))}
             </ul>
           </div>
@@ -40,8 +44,12 @@ const Footer = () => {
                 { title: "Official Blog", link: "" },
                 { title: "About Us", link: "" },
                 { title: "Contact Us", link: "" },
-              ].map((item) => (
-                <FooterListItems title={item.title} link={item.link} />
+              ].map((item, index) => (
+                <FooterListItems
+                  key={index}
+                  title={item.title}
+                  link={item.link}
+                />
               ))}
             </ul>
           </div>
