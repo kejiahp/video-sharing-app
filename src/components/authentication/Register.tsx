@@ -1,6 +1,6 @@
 "use client";
 import { registerschema } from "@/schema/authentication.schema";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../utilities/input/Input";
@@ -9,10 +9,19 @@ import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      toast.error("log out to access the register page");
+      router.push("/");
+    }
+  }, [session?.status, router]);
 
   const {
     register,

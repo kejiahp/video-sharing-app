@@ -4,13 +4,13 @@ import React from "react";
 interface AdminSideBarItems {
   title: string;
   link: string;
-  icon?: React.JSX.Element;
+  icon?: any;
 }
 
 const AdminSideBarItems: React.FC<AdminSideBarItems> = ({
   title,
   link,
-  icon,
+  icon: Icon,
 }) => {
   return (
     <Link
@@ -18,7 +18,7 @@ const AdminSideBarItems: React.FC<AdminSideBarItems> = ({
       className="p-1 hover:bg-white group transition duration-200 rounded-md"
     >
       <span className="group-hover:text-blue-400 text-white font-semibold flex gap-2 items-center">
-        {icon}
+        <Icon className="text-white group-hover:text-blue-400" />
         {title}
       </span>
     </Link>

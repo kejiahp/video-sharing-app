@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import AdminSideBarItems from "./AdminSideBarItems";
-import { HiAcademicCap } from "react-icons/hi";
-import { RxHamburgerMenu } from "react-icons/rx";
 import { HiXMark } from "react-icons/hi2";
+import { MdOutlineLocalMovies } from "react-icons/md";
+import { BiCategoryAlt } from "react-icons/bi";
+import { SiSteelseries } from "react-icons/si";
 import Button from "../utilities/button/Button";
 
 const AdminSideBar = () => {
   const [showMenu, setShowMenu] = useState(false);
-  console.log(showMenu);
 
   return (
     <>
@@ -46,9 +46,17 @@ const AdminSideBar = () => {
         <AdminSideBarItems
           title={"Genre"}
           link={"/admin/genre"}
-          icon={
-            <HiAcademicCap className="text-white group-hover:text-blue-400 " />
-          }
+          icon={BiCategoryAlt}
+        />
+        <AdminSideBarItems
+          title={"Movies"}
+          link="/admin/movies"
+          icon={MdOutlineLocalMovies}
+        />
+        <AdminSideBarItems
+          title="Series"
+          link="/admin/series"
+          icon={SiSteelseries}
         />
       </div>
     </>

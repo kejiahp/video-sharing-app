@@ -22,7 +22,6 @@ export type NavBarItemType = {
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const session = useSession();
-  console.log(session);
 
   return (
     <>

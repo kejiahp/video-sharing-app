@@ -1,6 +1,6 @@
 "use client";
 import { loginschema } from "@/schema/authentication.schema";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../utilities/input/Input";
@@ -17,7 +17,14 @@ interface LoginProps {
 const Login = ({ searchParams }: LoginProps) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const session = useSession();
+  const session = useSession();
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      toast.error("log out to access the login page");
+      router.push("/");
+    }
+  }, [session?.status, router]);
 
   const {
     register,
@@ -48,6 +55,7 @@ const Login = ({ searchParams }: LoginProps) => {
       })
       .finally(() => setIsLoading(false));
   };
+
   return (
     <>
       {searchParams?.mesaage && <p>{searchParams?.message}</p>}
@@ -68,6 +76,7 @@ const Login = ({ searchParams }: LoginProps) => {
         <Input
           id="password"
           label="Password"
+          type="password"
           disabled={false}
           register={register}
           required
