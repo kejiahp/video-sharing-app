@@ -10,7 +10,9 @@ interface SearchPageProps {
 }
 
 const page = async ({ searchParams }: SearchPageProps) => {
-  const genres: IGenre[] = await getGenres({ name: searchParams?.q as string });
+  const genres: (IGenre & { _id: string })[] = await getGenres({
+    name: searchParams?.q as string,
+  });
 
   if (genres.length === 0) {
     return (
@@ -26,6 +28,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
       {genres.map((item, index) => (
         <GenreItem
           key={index}
+          _id={item._id}
           name={item.name}
           updatedAt={item.updatedAt}
           createdAt={item.createdAt}

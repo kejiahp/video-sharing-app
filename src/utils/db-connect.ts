@@ -49,6 +49,7 @@ async function dbConnect() {
   } catch (e: any) {
     cached.promise = null;
     console.log("can't connect to DB");
+    console.log(e);
     throw e;
   }
 

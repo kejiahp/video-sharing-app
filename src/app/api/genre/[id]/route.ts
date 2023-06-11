@@ -27,7 +27,7 @@ export async function DELETE(
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: number } }
+  { params }: { params: { id: string } }
 ) {
   try {
     await dbConnect();

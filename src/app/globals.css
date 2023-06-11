@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+.multi-select {
+  z-index: 30 !important;
+}
+
 .gradient {
   background: linear-gradient(90deg, #ada8f7 0%, #5181da 100%);
 }

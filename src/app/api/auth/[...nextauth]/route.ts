@@ -13,30 +13,34 @@ export const authOptions: AuthOptions = {
         password: { label: "password", type: "password" },
       },
       async authorize(credentials) {
-        await dbConnect();
+        try {
+          await dbConnect();
 
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid username or password");
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error("Invalid username or password");
+          }
+
+          const user = await User.findOne({
+            email: credentials.email,
+          });
+
+          if (!user) {
+            throw new Error("Invalid credentials");
+          }
+
+          const isCorrectPassword = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isCorrectPassword) {
+            throw new Error("Invalid credentials");
+          }
+
+          return { id: user._id, name: user.username, email: user.email };
+        } catch (err: any) {
+          throw new Error("Server Error");
         }
-
-        const user = await User.findOne({
-          email: credentials.email,
-        });
-
-        if (!user) {
-          throw new Error("Invalid credentials");
-        }
-
-        const isCorrectPassword = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isCorrectPassword) {
-          throw new Error("Invalid credentials");
-        }
-
-        return { id: user._id, name: user.username, email: user.email };
       },
     }),
   ],

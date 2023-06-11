@@ -2,19 +2,19 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import AdminSearchBar from "@/components/admin/AdminSearchBar";
 import React, { PropsWithChildren } from "react";
 
-const layout = ({ children }: PropsWithChildren) => {
+const Layout = ({ children }: PropsWithChildren) => {
   return (
     <div>
       <AdminHeader
-        header={"Genre"}
-        linkText={"ADD GENRE"}
-        subHeader="all genre's"
-        href={"/admin/genre/add"}
+        header={"Movies"}
+        linkText={"ADD MOVIES"}
+        subHeader="all movies"
+        href={"/admin/movies/add"}
       />
       <div className="mt-4">
         <AdminSearchBar
-          url="/admin/genre/search/"
-          placeholder="Enter the name of genre"
+          url="/admin/movies/search/"
+          placeholder="Enter the name of movies"
         />
         {children}
       </div>
@@ -22,4 +22,4 @@ const layout = ({ children }: PropsWithChildren) => {
   );
 };
 
-export default layout;
+export default Layout;

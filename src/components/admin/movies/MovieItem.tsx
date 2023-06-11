@@ -1,27 +1,22 @@
 "use client";
 import Button from "@/components/utilities/button/Button";
-import { useDeleteGenre, useRenameGenre } from "@/hooks/useGenre";
+import { useDeleteMovie } from "@/hooks/useMovies";
 import { dateformatter } from "@/utils/date-formatter";
-import React from "react";
+import { useRouter } from "next/navigation";
 
-interface GenreItemProps {
+interface MovieItemProps {
+  _id: string;
   name: string;
   createdAt: string;
-  _id: string;
 }
 
-const GenreItem: React.FC<GenreItemProps> = ({ _id, name, createdAt }) => {
-  const useRenameOpen = useRenameGenre.getState().onOpen;
-  const useDeleteOpen = useDeleteGenre.getState().onOpen;
-
-  const onUpdateHandler = (data: any) => {
-    useRenameOpen(data);
-  };
+const MovieItem: React.FC<MovieItemProps> = ({ _id, name, createdAt }) => {
+  const router = useRouter();
+  const deleteMovieOpen = useDeleteMovie.getState().onOpen;
 
   const onDeleteHandler = (data: any) => {
-    useDeleteOpen(data);
+    deleteMovieOpen(data);
   };
-
   return (
     <>
       <div className="my-1 px-2 flex items-center justify-between">
@@ -34,7 +29,7 @@ const GenreItem: React.FC<GenreItemProps> = ({ _id, name, createdAt }) => {
           <Button
             sec
             isSmall
-            onClick={() => onUpdateHandler({ name: name, _id: _id })}
+            onClick={() => router.push("/admin/movies/update")}
           >
             UPDATE
           </Button>
@@ -50,4 +45,4 @@ const GenreItem: React.FC<GenreItemProps> = ({ _id, name, createdAt }) => {
   );
 };
 
-export default GenreItem;
+export default MovieItem;

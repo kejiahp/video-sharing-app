@@ -6,7 +6,15 @@ import Button from "../utilities/button/Button";
 import { HiSearch } from "react-icons/hi";
 import { useRouter } from "next/navigation";
 
-const AdminSearchBar = () => {
+interface AdminSearchBarProps {
+  placeholder: string;
+  url: string;
+}
+
+const AdminSearchBar: React.FC<AdminSearchBarProps> = ({
+  placeholder,
+  url,
+}) => {
   const router = useRouter();
 
   const {
@@ -24,7 +32,7 @@ const AdminSearchBar = () => {
     event?.preventDefault();
     const dataSearchQuery = encodeURI(data.name);
     reset();
-    router.push(`/admin/genre/search/?q=${dataSearchQuery}`);
+    router.push(`${url}?q=${dataSearchQuery}`);
   };
 
   return (
@@ -35,7 +43,7 @@ const AdminSearchBar = () => {
       >
         <Input
           id={"name"}
-          label={"Enter the name of genre"}
+          label={placeholder}
           disabled={false}
           required={true}
           errors={errors}

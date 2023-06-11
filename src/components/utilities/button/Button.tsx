@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ButtonProps {
-  onClick?: () => void;
+  onClick?: (data?: any) => void;
   isSmall?: boolean;
   isLink?: boolean;
   link?: string;

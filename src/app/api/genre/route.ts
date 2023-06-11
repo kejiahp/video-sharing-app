@@ -22,3 +22,16 @@ export async function POST(req: Request) {
     return new Response("Internal Error", { status: 500 });
   }
 }
+
+export async function GET(req: Request) {
+  try {
+    await dbConnect();
+
+    const genres = await GenreModel.find();
+
+    return new Response(JSON.stringify(genres), { status: 200 });
+  } catch (err: any) {
+    console.log("ERROR GET ALL GENRE");
+    return new Response("Internal Error", { status: 500 });
+  }
+}

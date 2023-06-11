@@ -17,10 +17,11 @@
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
+    "cloudinary": "^1.37.1",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.4",
     "mongoose": "^7.2.1",
-    "next": "^13.4.5-canary.2",
+    "next": "^13.4.4",
     "next-auth": "^4.22.1",
     "postcss": "8.4.24",
     "react": "18.2.0",
@@ -28,10 +29,13 @@
     "react-hook-form": "^7.44.2",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.9.0",
+    "react-multi-select-component": "^4.3.4",
     "react-spinners": "^0.13.8",
+    "swr": "^2.1.5",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",
-    "zod": "^3.21.4"
+    "zod": "^3.21.4",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0"
