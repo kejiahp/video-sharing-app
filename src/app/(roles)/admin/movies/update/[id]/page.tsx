@@ -1,5 +1,7 @@
 "use client";
 import Loader from "@/components/loader/Loader";
+import CurrentImg from "@/components/utilities/CurrentImg";
+import EmptyState from "@/components/utilities/EmptyState";
 import Button from "@/components/utilities/button/Button";
 import Input from "@/components/utilities/input/Input";
 import SelectInput from "@/components/utilities/select/SelectInput";
@@ -9,39 +11,43 @@ import {
   movieQualityOptions,
 } from "@/constants/movie.constants";
 import fetcher from "@/libs/fetcher";
+import { IMovie } from "@/models/Movie.model";
 import {
-  MovieCreationSchemaType,
-  moviecreationschema,
+  MovieUpdateSchemaType,
+  movieupdateschema,
 } from "@/schema/movie.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { MultiSelect } from "react-multi-select-component";
 import useSWR, { mutate } from "swr";
 
-type multiselectType = { label: string; value: string };
-
 const Page = () => {
-  const [selectedGenre, setSelectedGenre] = useState<multiselectType[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const {
-    data,
-    error,
-    isLoading: isGenreLoading,
-  } = useSWR("/api/genre", fetcher);
+  const params = useParams();
+  const [isUpdating, setIsUpdating] = useState<boolean>(false);
   const router = useRouter();
+
+  const { isLoading, data, error } = useSWR<IMovie & { _id: string }>(
+    `/api/movie/${params?.id}`,
+    fetcher
+  );
+
+  const {
+    isLoading: genreLoading,
+    error: genreError,
+    data: genreData,
+  } = useSWR("/api/genre", fetcher);
 
   const {
     register,
     handleSubmit,
-    setValue,
-    reset,
     formState: { errors },
+    watch,
+    reset,
   } = useForm<FieldValues>({
-    resolver: zodResolver(moviecreationschema),
+    resolver: zodResolver(movieupdateschema),
     defaultValues: {
       name: "",
       mainImg: "",
@@ -62,84 +68,135 @@ const Page = () => {
   });
 
   useEffect(() => {
-    const genreValue = selectedGenre.map((item: any) => item.value);
-    setValue("genre", genreValue, {
-      shouldDirty: true,
-      shouldTouch: true,
-      shouldValidate: true,
-    });
-  }, [selectedGenre]);
+    if (data) {
+      const mainData = {
+        name: data?.name,
+        mainImg: data?.mainImg,
+        coverImg: data?.coverImg,
+        trailer: data?.trailer,
+        description: data?.description,
+        releaseDate: data?.releaseDate,
+        genre: data?.genre,
+        casts: data?.casts,
+        duration: data?.duration,
+        country: data?.country,
+        production: data?.production,
+        quality: data?.quality,
+        imdbRating: data?.imdbRating,
+        availability: data?.availability,
+        downloadLink: data?.downloadLink,
+      };
+
+      reset(mainData);
+    }
+  }, [data, reset]);
+
+  if (error || genreError) {
+    throw new Error("failed to fetch single movie");
+  }
+
+  if (isLoading || genreLoading) {
+    return <Loader loading={true} />;
+  }
+
+  if (!data || !genreData) {
+    return (
+      <EmptyState
+        header="Oops...something went wrong😟"
+        subHeader={`can't fetch data for movie with the id ${params?.id}`}
+      />
+    );
+  }
 
   let genreOptions = [];
-  if (data) {
-    genreOptions = data.map((item: any) => ({
+  if (genreData) {
+    genreOptions = genreData.map((item: any) => ({
       label: item.name,
       value: item._id,
     }));
   }
 
+  let movieGenre = [];
+  if (genreOptions && data) {
+    movieGenre = genreOptions.filter((item: any) =>
+      data.genre.includes(item.value)
+    );
+  }
   const onSubmitHandler: SubmitHandler<
-    FieldValues | MovieCreationSchemaType
+    FieldValues | MovieUpdateSchemaType
   > = async (data) => {
     try {
-      setIsLoading(true);
-      let { coverImg, mainImg, ...payload } = data;
+      setIsUpdating(true);
 
-      const mainFormData = new FormData();
-      mainFormData.append("file", mainImg[0]);
-      mainFormData.append(
-        "upload_preset",
-        process.env.NEXT_PUBLIC_UNSIGNED_PRESET as string
-      );
-      const coverFormData = new FormData();
-      coverFormData.append("file", coverImg[0]);
-      coverFormData.append(
-        "upload_preset",
-        process.env.NEXT_PUBLIC_UNSIGNED_PRESET as string
-      );
+      const { mainImg, coverImg, ...payload } = data;
+      let mainImgResponseData = null;
+      let coverImgResponseData = null;
+      let newPayload = { ...payload };
 
-      const mainImgResponseData = await axios.post(
-        process.env.NEXT_PUBLIC_CLOUDINARY_API as string,
-        mainFormData
-      );
+      if (mainImg instanceof FileList && typeof mainImg !== "string") {
+        const mainImgFormData = new FormData();
+        mainImgFormData.append("file", mainImg[0]);
+        mainImgFormData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UNSIGNED_PRESET as string
+        );
 
-      const coverImgResponseData = await axios.post(
-        process.env.NEXT_PUBLIC_CLOUDINARY_API as string,
-        coverFormData
-      );
+        mainImgResponseData = await axios.post(
+          process.env.NEXT_PUBLIC_CLOUDINARY_API as string,
+          mainImgFormData
+        );
+      }
+
+      if (coverImg instanceof FileList && typeof coverImg !== "string") {
+        const coverImgFormData = new FormData();
+        coverImgFormData.append("file", coverImg[0]);
+        coverImgFormData.append(
+          "upload_preset",
+          process.env.NEXT_PUBLIC_UNSIGNED_PRESET as string
+        );
+
+        coverImgResponseData = await axios.post(
+          process.env.NEXT_PUBLIC_CLOUDINARY_API as string,
+          coverImgFormData
+        );
+      }
+
+      if (mainImgResponseData) {
+        newPayload = {
+          ...newPayload,
+          mainImg: mainImgResponseData.data.secure_url,
+        };
+      }
+      if (coverImgResponseData) {
+        newPayload = {
+          ...newPayload,
+          coverImg: coverImgResponseData.data.secure_url,
+        };
+      }
 
       axios
-        .post("/api/movie", {
-          coverImg: coverImgResponseData.data.secure_url,
-          mainImg: mainImgResponseData.data.secure_url,
-          ...payload,
-        })
+        .patch(`/api/movie/${params?.id}`, newPayload)
         .then(() => {
-          reset();
-          toast.success("movie created");
+          toast.success("movie updated");
           mutate("/api/movie");
           router.refresh();
         })
-        .catch((err) => {
+        .catch((err: any) => {
           console.log(err);
-          toast.error(`Something went wrong`);
+          toast.error("Something went wrong");
         });
     } catch (err: any) {
       console.log(err);
-      toast.error("ERROR CREATING MOVIE!!!");
+      toast.error("ERROR UPDATING MOVIE");
     } finally {
-      setIsLoading(false);
+      setIsUpdating(false);
     }
+    console.log(data);
   };
-
-  if (error) {
-    throw new Error("Failed to fetch genres, can't create movie");
-  }
 
   return (
     <>
-      <Loader loading={isLoading} />
-      <h1 className="text-2xl text-gray-500">Create Movie Page</h1>
+      <h1 className="text-2xl text-gray-500">Update Movie Page</h1>
       <form
         className="mt-4 flex flex-col gap-6"
         onSubmit={handleSubmit(onSubmitHandler)}
@@ -152,6 +209,8 @@ const Page = () => {
           errors={errors}
           register={register}
         />
+        <CurrentImg image={data.mainImg} header="Current Main Image" />
+
         <Input
           id={"mainImg"}
           label={"Main Image"}
@@ -161,6 +220,9 @@ const Page = () => {
           errors={errors}
           register={register}
         />
+
+        <CurrentImg image={data.coverImg} header="Current Cover Image" />
+
         <Input
           id={"coverImg"}
           label={"Cover Image"}
@@ -170,6 +232,7 @@ const Page = () => {
           errors={errors}
           register={register}
         />
+
         <Input
           id={"trailer"}
           label={"Trailer (link to url)"}
@@ -196,16 +259,17 @@ const Page = () => {
           errors={errors}
           register={register}
         />
-        {/*@ts-ignore */}
-        <small className="text-rose-500">{errors.genre?.message}</small>
-        <MultiSelect
-          isLoading={isGenreLoading}
+
+        <SelectInput
+          id={"genre"}
           options={genreOptions}
-          value={selectedGenre}
-          onChange={setSelectedGenre}
-          labelledBy={"Select Genre"}
-          hasSelectAll={false}
-          isCreatable={false}
+          multiple={true}
+          label={"Select Genre"}
+          defaultValue={watch("genre")}
+          disabled={false}
+          required={true}
+          errors={errors}
+          register={register}
         />
 
         <TextArea
@@ -251,8 +315,9 @@ const Page = () => {
           errors={errors}
           register={register}
           options={movieQualityOptions}
-          defaultValue={"AVERAGE"}
+          defaultValue={watch("quality")}
         />
+
         <Input
           id={"imdbRating"}
           label={"IMDB Rating (optional)"}
@@ -267,7 +332,7 @@ const Page = () => {
         />
 
         <SelectInput
-          defaultValue={"available"}
+          defaultValue={watch("availability")}
           id={"availability"}
           options={movieAvaliabilityOptions}
           label={"Availability"}
@@ -287,8 +352,8 @@ const Page = () => {
         />
 
         <div>
-          <Button isSmall sec disable={isLoading}>
-            SAVE
+          <Button isSmall sec disable={isUpdating}>
+            Update
           </Button>
         </div>
       </form>

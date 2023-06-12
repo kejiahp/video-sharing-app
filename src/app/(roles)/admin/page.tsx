@@ -1,9 +1,5 @@
-"use client";
-import { useSession } from "next-auth/react";
-import React from "react";
-
 const pages = () => {
-  return <div>This is the ADMIN PAGE</div>;
+  return <h1 className="text-rose-400">This is the admin page</h1>;
 };
 
 export default pages;

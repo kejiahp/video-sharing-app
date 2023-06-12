@@ -1,8 +1,15 @@
+import getCurrentUser from "@/actions/getCurrentUser";
 import GenreModel from "@/models/Genre.model";
 import dbConnect from "@/utils/db-connect";
 
 export async function POST(req: Request) {
   try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return new Response("Unauthorized User", { status: 401 });
+    }
+
     await dbConnect();
 
     const body = await req.json();

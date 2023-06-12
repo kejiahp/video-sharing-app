@@ -2,15 +2,22 @@
 import Button from "@/components/utilities/button/Button";
 import { useDeleteMovie } from "@/hooks/useMovies";
 import { dateformatter } from "@/utils/date-formatter";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface MovieItemProps {
   _id: string;
   name: string;
+  mainImg: string;
   createdAt: string;
 }
 
-const MovieItem: React.FC<MovieItemProps> = ({ _id, name, createdAt }) => {
+const MovieItem: React.FC<MovieItemProps> = ({
+  _id,
+  name,
+  createdAt,
+  mainImg,
+}) => {
   const router = useRouter();
   const deleteMovieOpen = useDeleteMovie.getState().onOpen;
 
@@ -19,17 +26,26 @@ const MovieItem: React.FC<MovieItemProps> = ({ _id, name, createdAt }) => {
   };
   return (
     <>
-      <div className="my-1 px-2 flex items-center justify-between">
-        <h1 className="text-gray-500 w-1/5">{name.slice(0, 5)}...</h1>
+      <div className="my-1 px-2 flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <h1 className="text-gray-500 sm:w-1/5">
+          {name.length > 30 ? `${name.slice(0, 30)}...` : name}
+        </h1>
         <p className="text-gray-500 text-sm">
           {dateformatter(new Date(createdAt))}
         </p>
+        <Image
+          alt=""
+          src={mainImg}
+          className="object-contain bg-gray-300"
+          width={50}
+          height={50}
+        />
 
         <div className="flex items-center gap-2">
           <Button
             sec
             isSmall
-            onClick={() => router.push("/admin/movies/update")}
+            onClick={() => router.push(`/admin/movies/update/${_id}`)}
           >
             UPDATE
           </Button>

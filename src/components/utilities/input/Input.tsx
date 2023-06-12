@@ -11,6 +11,9 @@ interface InputProps {
   errors: FieldErrors;
   register: UseFormRegister<FieldValues>;
   icon?: JSX.Element;
+  min?: number;
+  max?: number;
+  step?: number;
   isIcon?: boolean;
 }
 
@@ -22,6 +25,9 @@ const Input: React.FC<InputProps> = ({
   required,
   errors,
   isIcon,
+  min,
+  max,
+  step,
   register,
   icon,
 }) => {
@@ -34,6 +40,9 @@ const Input: React.FC<InputProps> = ({
         {...register(id, { required })}
         placeholder=" "
         type={type}
+        min={min}
+        max={max}
+        step={step}
         className={`
         peer
         w-full

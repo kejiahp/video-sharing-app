@@ -3,7 +3,6 @@ import GenreItem from "@/components/admin/genre/GenreItem";
 import EmptyState from "@/components/utilities/EmptyState";
 import { IGenre } from "@/models/Genre.model";
 import React from "react";
-import { string } from "zod";
 
 const Page = async () => {
   const genres: (IGenre & { _id: string })[] = await getGenres();
@@ -24,7 +23,6 @@ const Page = async () => {
           _id={item._id}
           key={index}
           name={item.name}
-          updatedAt={item.updatedAt}
           createdAt={item.createdAt}
         />
       ))}

@@ -2,8 +2,11 @@
 import Loader from "@/components/loader/Loader";
 import Modal from "@/components/utilities/modal/Modal";
 import { useDeleteMovie } from "@/hooks/useMovies";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
+import { mutate } from "swr";
 
 const DeleteMovie = () => {
   const router = useRouter();
@@ -31,6 +34,18 @@ const DeleteMovie = () => {
 
   const onSubmitHandler = () => {
     setIsLoading(true);
+
+    axios
+      .delete(`/api/movie/${deleteMovieCtrl.data?._id}`)
+      .then(() => {
+        toast.success("movie deleted successfully");
+        mutate("/api/movie");
+        deleteMovieCtrl.onClose();
+      })
+      .catch(() => {
+        toast.error("Something went wrong");
+      })
+      .finally(() => setIsLoading(false));
   };
   return (
     <>
@@ -38,7 +53,7 @@ const DeleteMovie = () => {
       <Modal
         submitText="Delete"
         header="Delete Movie"
-        subHeader={`Are you sure you want to delete the movie with the id of ${deleteMovieCtrl.data?._id}`}
+        subHeader={`Are you sure you want to delete this movie ?`}
         closeText={"Cancel"}
         bodyContent={bodyContent}
         isOpen={deleteMovieCtrl.isOpen}

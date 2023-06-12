@@ -24,8 +24,10 @@ const GenreItem: React.FC<GenreItemProps> = ({ _id, name, createdAt }) => {
 
   return (
     <>
-      <div className="my-1 px-2 flex items-center justify-between">
-        <h1 className="text-gray-500 w-1/5">{name.slice(0, 5)}...</h1>
+      <div className="my-1 px-2 flex flex-col sm:flex-row items-center justify-between">
+        <h1 className="text-gray-500 sm:w-1/5">
+          {name.length > 30 ? `${name.slice(0, 30)}...` : name}
+        </h1>
         <p className="text-gray-500 text-sm">
           {dateformatter(new Date(createdAt))}
         </p>

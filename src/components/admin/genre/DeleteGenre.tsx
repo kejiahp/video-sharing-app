@@ -40,7 +40,7 @@ const DeleteGenre = () => {
         deleteModalCtrl.onClose();
       })
       .catch((err) => {
-        toast.error(`Something went wrong, ${err?.response?.data}`);
+        toast.error(`Something went wrong`);
       })
       .finally(() => {
         setIsLoading(false);

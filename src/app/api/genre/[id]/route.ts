@@ -1,3 +1,4 @@
+import getCurrentUser from "@/actions/getCurrentUser";
 import GenreModel from "@/models/Genre.model";
 import dbConnect from "@/utils/db-connect";
 
@@ -6,6 +7,12 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return new Response("Unauthorized User", { status: 401 });
+    }
+
     await dbConnect();
 
     const genre = await GenreModel.findById(params.id);
@@ -30,6 +37,12 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
+      return new Response("Unauthorized User", { status: 401 });
+    }
+
     await dbConnect();
 
     const body = await req.json();

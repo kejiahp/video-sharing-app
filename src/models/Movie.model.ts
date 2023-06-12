@@ -5,7 +5,7 @@ interface LikeDislikeInterface {
   users: mongoose.Types.ObjectId[];
 }
 
-interface IMovie {
+export interface IMovie {
   name: string;
   mainImg: string;
   coverImg: string;
@@ -72,20 +72,18 @@ const MovieSchema = new mongoose.Schema<IMovie>(
       users: [
         { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
       ],
-      required: false,
     },
     dislikes: {
       count: { type: Number, required: false, default: 0 },
       users: [
         { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
       ],
-      required: false,
     },
     quality: {
       type: String,
       default: "HD",
       enum: {
-        values: ["HD", "CAM", "N/A"],
+        values: ["POOR", "AVERAGE", "GOOD", "EXCELLENT"],
         message: "{VALUE} is not supported",
       },
     },
