@@ -1,5 +1,6 @@
 import getCurrentUser from "@/actions/getCurrentUser";
 import GenreModel from "@/models/Genre.model";
+import { SafeUser } from "@/types/SafeUser";
 import dbConnect from "@/utils/db-connect";
 
 export async function DELETE(
@@ -7,9 +8,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
+    const currentUser: SafeUser = await getCurrentUser();
+    if (!currentUser || currentUser.type !== "admin") {
       return new Response("Unauthorized User", { status: 401 });
     }
 
@@ -37,9 +37,8 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
+    const currentUser: SafeUser = await getCurrentUser();
+    if (!currentUser || currentUser.type !== "admin") {
       return new Response("Unauthorized User", { status: 401 });
     }
 

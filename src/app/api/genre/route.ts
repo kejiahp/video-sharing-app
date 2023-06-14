@@ -1,12 +1,12 @@
 import getCurrentUser from "@/actions/getCurrentUser";
 import GenreModel from "@/models/Genre.model";
+import { SafeUser } from "@/types/SafeUser";
 import dbConnect from "@/utils/db-connect";
 
 export async function POST(req: Request) {
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
+    const currentUser: SafeUser = await getCurrentUser();
+    if (!currentUser || currentUser.type !== "admin") {
       return new Response("Unauthorized User", { status: 401 });
     }
 

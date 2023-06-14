@@ -30,7 +30,6 @@ const page = async ({ searchParams }: SearchPageProps) => {
           key={index}
           _id={item._id}
           name={item.name}
-          updatedAt={item.updatedAt}
           createdAt={item.createdAt}
         />
       ))}

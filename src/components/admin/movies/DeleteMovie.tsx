@@ -40,6 +40,7 @@ const DeleteMovie = () => {
       .then(() => {
         toast.success("movie deleted successfully");
         mutate("/api/movie");
+        router.refresh();
         deleteMovieCtrl.onClose();
       })
       .catch(() => {

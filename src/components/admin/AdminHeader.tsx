@@ -7,12 +7,14 @@ interface AdminHeaderProps {
   subHeader?: string;
   linkText: string;
   href: string;
+  noAddBtn?: boolean;
 }
 
 const AdminHeader: React.FC<AdminHeaderProps> = ({
   header,
   subHeader,
   linkText,
+  noAddBtn,
   href,
 }) => {
   return (
@@ -23,9 +25,11 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
           <h4 className="text-gray-600">{subHeader}</h4>
         </div>
 
-        <Link href={href}>
-          <Button isSmall>{linkText}</Button>
-        </Link>
+        {noAddBtn ? null : (
+          <Link href={href}>
+            <Button isSmall>{linkText}</Button>
+          </Link>
+        )}
       </section>
       <hr />
     </>

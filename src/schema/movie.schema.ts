@@ -49,6 +49,7 @@ const optionalImageValidator = zod
 
 export const moviecreationschema = zod.object({
   name: zod.string().nonempty(),
+  isSeries: zod.union([zod.literal("true"), zod.literal("false")]),
   mainImg: imageValidator,
   coverImg: imageValidator,
   trailer: zod.string().url().nonempty(),
@@ -89,6 +90,7 @@ export const moviecreationschema = zod.object({
 
 export const apimoviecreationschema = zod.object({
   name: zod.string().nonempty(),
+  isSeries: zod.union([zod.literal("true"), zod.literal("false")]),
   mainImg: zod.string().url().nonempty(),
   coverImg: zod.string().url().nonempty(),
   trailer: zod.string().url().nonempty(),
@@ -129,6 +131,7 @@ export const apimoviecreationschema = zod.object({
 
 export const movieupdateschema = zod.object({
   name: zod.string().nonempty(),
+  isSeries: zod.union([zod.literal("true"), zod.literal("false")]),
   mainImg: optionalImageValidator.optional(),
   coverImg: optionalImageValidator.optional(),
   trailer: zod.string().url().nonempty(),
@@ -169,6 +172,7 @@ export const movieupdateschema = zod.object({
 
 export const apimovieupdateschema = zod.object({
   name: zod.string().nonempty(),
+  isSeries: zod.union([zod.literal("true"), zod.literal("false")]),
   mainImg: urlValidator.optional().nullable(),
   coverImg: urlValidator.optional().nullable(),
   trailer: zod.string().url().nonempty(),

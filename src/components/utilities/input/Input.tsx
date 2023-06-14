@@ -9,6 +9,7 @@ interface InputProps {
   disabled: boolean;
   required: boolean;
   errors: FieldErrors;
+  complexError?: boolean;
   register: UseFormRegister<FieldValues>;
   icon?: JSX.Element;
   min?: number;
@@ -24,6 +25,7 @@ const Input: React.FC<InputProps> = ({
   disabled,
   required,
   errors,
+  complexError,
   isIcon,
   min,
   max,
@@ -57,15 +59,22 @@ const Input: React.FC<InputProps> = ({
         disabled:opacity-70
         disabled:cursor-not-allowed
         ${isIcon ? "pl-9" : "pl-4"}
-        ${errors[id] ? "border-rose-500" : "border-neutral-300"}
-        ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}
+        ${errors[id] || complexError ? "border-rose-500" : "border-neutral-300"}
+        ${
+          errors[id] || complexError
+            ? "focus:border-rose-500"
+            : "focus:border-black"
+        }
 
         `}
       />
       <label
         className={`
             absolute
-            text-sm
+            sm:text-sm
+            sm:font-normal
+            text-xs
+            font-semibold
             transform
             duration-150
             -translate-y-4

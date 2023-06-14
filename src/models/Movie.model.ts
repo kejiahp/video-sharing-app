@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { boolean, string } from "zod";
 
 interface LikeDislikeInterface {
   count: number;
@@ -7,6 +8,7 @@ interface LikeDislikeInterface {
 
 export interface IMovie {
   name: string;
+  isSeries: string;
   mainImg: string;
   coverImg: string;
   trailer: string;
@@ -35,6 +37,14 @@ const MovieSchema = new mongoose.Schema<IMovie>(
     name: {
       type: String,
       required: [true, "name is required"],
+    },
+    isSeries: {
+      type: String,
+      default: "false",
+      enum: {
+        values: ["true", "false"],
+        message: "{VALUE} is not supported",
+      },
     },
     mainImg: { type: String, required: [true, "mainImg is required"] },
     coverImg: { type: String, required: [true, "coverImg is required"] },

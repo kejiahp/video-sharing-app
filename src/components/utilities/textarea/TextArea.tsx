@@ -60,7 +60,10 @@ const TextArea: React.FC<TextAreaProps> = ({
       <label
         className={`
             absolute
-            text-sm
+            sm:text-sm
+            sm:font-normal
+            text-xs
+            font-semibold
             transform
             duration-150
             -translate-y-4

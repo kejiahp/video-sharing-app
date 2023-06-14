@@ -30,9 +30,12 @@ const MovieItem: React.FC<MovieItemProps> = ({
         <h1 className="text-gray-500 sm:w-1/5">
           {name.length > 30 ? `${name.slice(0, 30)}...` : name}
         </h1>
-        <p className="text-gray-500 text-sm">
-          {dateformatter(new Date(createdAt))}
-        </p>
+        <div className="flex flex-col gap-1 items-center sm:items-start">
+          <p className="text-gray-500 text-sm">
+            created at: {dateformatter(new Date(createdAt))}
+          </p>
+          <p className="text-gray-500 text-sm">id: {_id}</p>
+        </div>
         <Image
           alt=""
           src={mainImg}

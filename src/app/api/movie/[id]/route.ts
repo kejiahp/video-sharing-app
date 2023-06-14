@@ -1,6 +1,8 @@
 import getCurrentUser from "@/actions/getCurrentUser";
 import MovieModel from "@/models/Movie.model";
+import SeriesModel from "@/models/Series.model";
 import { apimovieupdateschema } from "@/schema/movie.schema";
+import { SafeUser } from "@/types/SafeUser";
 import dbConnect from "@/utils/db-connect";
 
 export async function DELETE(
@@ -8,9 +10,8 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
+    const currentUser: SafeUser = await getCurrentUser();
+    if (!currentUser || currentUser.type !== "admin") {
       return new Response("Unauthorized User", { status: 401 });
     }
 
@@ -19,6 +20,14 @@ export async function DELETE(
     const movie = await MovieModel.findById(params.id);
 
     if (!movie) return new Response("movie not found");
+
+    if (movie.isSeries === "true") {
+      const series = await SeriesModel.findOne({ movieId: movie._id });
+
+      if (series) {
+        await SeriesModel.deleteOne({ _id: series.id });
+      }
+    }
 
     const deletedMovie = await MovieModel.deleteOne({ _id: params.id });
 
@@ -38,9 +47,8 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
+    const currentUser: SafeUser = await getCurrentUser();
+    if (!currentUser || currentUser.type !== "admin") {
       return new Response("Unauthorized User", { status: 401 });
     }
 
@@ -68,6 +76,30 @@ export async function PATCH(
       return new Response("movie not updated", { status: 400 });
     }
 
+    const series = await SeriesModel.findOne({ movieId: updatedMovie._id });
+
+    if (updatedMovie.isSeries === "true") {
+      if (!series) {
+        await SeriesModel.create({
+          movieId: updatedMovie._id,
+          movieName: updatedMovie.name,
+        });
+      } else {
+        await SeriesModel.updateOne(
+          {
+            _id: series._id,
+          },
+          { movieName: updatedMovie.name }
+        );
+      }
+    }
+
+    if (updatedMovie.isSeries === "false") {
+      if (series) {
+        await SeriesModel.deleteOne({ movieId: updatedMovie._id });
+      }
+    }
+
     return new Response(JSON.stringify(updatedMovie), { status: 200 });
   } catch (err: any) {
     console.log("ERRRO AT UPDATE MOVIES");
@@ -81,11 +113,6 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-      return new Response("Unauthorized User", { status: 401 });
-    }
-
     await dbConnect();
 
     const movie = await MovieModel.findById(params.id);

@@ -44,6 +44,7 @@ const Page = () => {
     resolver: zodResolver(moviecreationschema),
     defaultValues: {
       name: "",
+      isSeries: "",
       mainImg: "",
       coverImg: "",
       trailer: "",
@@ -115,8 +116,8 @@ const Page = () => {
           ...payload,
         })
         .then(() => {
-          reset();
           toast.success("movie created");
+          reset();
           mutate("/api/movie");
           router.refresh();
         })
@@ -151,6 +152,19 @@ const Page = () => {
           required={true}
           errors={errors}
           register={register}
+        />
+        <SelectInput
+          id={"isSeries"}
+          label="Is this a Series"
+          disabled={false}
+          required={true}
+          errors={errors}
+          register={register}
+          options={[
+            { label: "Yes", value: "true" },
+            { label: "No", value: "false" },
+          ]}
+          defaultValue={"false"}
         />
         <Input
           id={"mainImg"}

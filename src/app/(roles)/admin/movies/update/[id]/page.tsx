@@ -50,6 +50,7 @@ const Page = () => {
     resolver: zodResolver(movieupdateschema),
     defaultValues: {
       name: "",
+      isSeries: "",
       mainImg: "",
       coverImg: "",
       trailer: "",
@@ -71,6 +72,7 @@ const Page = () => {
     if (data) {
       const mainData = {
         name: data?.name,
+        isSeries: data?.isSeries,
         mainImg: data?.mainImg,
         coverImg: data?.coverImg,
         trailer: data?.trailer,
@@ -116,12 +118,6 @@ const Page = () => {
     }));
   }
 
-  let movieGenre = [];
-  if (genreOptions && data) {
-    movieGenre = genreOptions.filter((item: any) =>
-      data.genre.includes(item.value)
-    );
-  }
   const onSubmitHandler: SubmitHandler<
     FieldValues | MovieUpdateSchemaType
   > = async (data) => {
@@ -178,7 +174,7 @@ const Page = () => {
         .patch(`/api/movie/${params?.id}`, newPayload)
         .then(() => {
           toast.success("movie updated");
-          mutate("/api/movie");
+          mutate(`/api/movie/${params?.id}`);
           router.refresh();
         })
         .catch((err: any) => {
@@ -191,7 +187,6 @@ const Page = () => {
     } finally {
       setIsUpdating(false);
     }
-    console.log(data);
   };
 
   return (
@@ -209,6 +204,21 @@ const Page = () => {
           errors={errors}
           register={register}
         />
+
+        <SelectInput
+          id={"isSeries"}
+          label="Is this a Series"
+          disabled={false}
+          required={true}
+          errors={errors}
+          register={register}
+          options={[
+            { label: "Yes", value: "true" },
+            { label: "No", value: "false" },
+          ]}
+          defaultValue={"false"}
+        />
+
         <CurrentImg image={data.mainImg} header="Current Main Image" />
 
         <Input
@@ -264,7 +274,9 @@ const Page = () => {
           id={"genre"}
           options={genreOptions}
           multiple={true}
-          label={"Select Genre"}
+          label={
+            "Select Genre (on desktop hold ctrl or equivalent to select multiple)"
+          }
           defaultValue={watch("genre")}
           disabled={false}
           required={true}

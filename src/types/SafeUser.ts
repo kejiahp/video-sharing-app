@@ -1,6 +1,6 @@
 export interface SafeUser {
   _id: string;
-  type: "regular" | "admin" | string;
+  type: "regular" | "admin";
   username: string;
   email: string;
   password: string;
