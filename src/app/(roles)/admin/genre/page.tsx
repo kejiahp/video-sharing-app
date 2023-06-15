@@ -7,7 +7,7 @@ import React from "react";
 const Page = async () => {
   const genres: (IGenre & { _id: string })[] = await getGenres();
 
-  if (genres.length === 0) {
+  if (!genres || genres.length <= 0) {
     return (
       <EmptyState
         header={"Oh...no Genres found 😟"}

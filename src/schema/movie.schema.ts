@@ -8,7 +8,7 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
-const urlValidator = zod.string().refine(
+export const urlValidator = zod.string().refine(
   (url) => {
     if (url.length > 1) {
       const valid = /^(ftp|http|https):\/\/[^ "]+$/.test(url);
@@ -19,7 +19,7 @@ const urlValidator = zod.string().refine(
   { message: "downloadLink must be a url" }
 );
 
-const imageValidator = zod
+export const imageValidator = zod
   .any()
   .refine(
     (files) => files?.[0]?.size <= MAX_FILE_SIZE_BYTES,
@@ -30,7 +30,7 @@ const imageValidator = zod
     "Only .jpg, .jpeg, .png and .webp formats are supported."
   );
 
-const optionalImageValidator = zod
+export const optionalImageValidator = zod
   .any()
   .refine((files) => {
     if (files instanceof FileList && typeof files !== "string") {

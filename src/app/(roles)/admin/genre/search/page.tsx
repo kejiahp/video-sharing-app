@@ -14,7 +14,7 @@ const page = async ({ searchParams }: SearchPageProps) => {
     name: searchParams?.q as string,
   });
 
-  if (genres.length === 0) {
+  if (!genres || genres.length <= 0) {
     return (
       <EmptyState
         header={"Oh...no Genres found 😟"}

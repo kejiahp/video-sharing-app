@@ -6,6 +6,7 @@ interface AdminHeaderProps {
   header: string;
   subHeader?: string;
   linkText: string;
+  actionFn?: () => void;
   href: string;
   noAddBtn?: boolean;
 }
@@ -15,6 +16,7 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
   subHeader,
   linkText,
   noAddBtn,
+  actionFn,
   href,
 }) => {
   return (
@@ -30,6 +32,14 @@ const AdminHeader: React.FC<AdminHeaderProps> = ({
             <Button isSmall>{linkText}</Button>
           </Link>
         )}
+
+        {noAddBtn && actionFn ? (
+          <span>
+            <Button isSmall onClick={actionFn}>
+              {linkText}
+            </Button>
+          </span>
+        ) : null}
       </section>
       <hr />
     </>

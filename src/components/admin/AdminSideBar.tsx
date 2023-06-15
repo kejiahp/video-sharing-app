@@ -5,6 +5,7 @@ import { HiXMark } from "react-icons/hi2";
 import { MdOutlineLocalMovies } from "react-icons/md";
 import { BiCategoryAlt } from "react-icons/bi";
 import { SiSteelseries } from "react-icons/si";
+import { RiAdvertisementFill } from "react-icons/ri";
 import Button from "../utilities/button/Button";
 
 const AdminSideBar = () => {
@@ -19,24 +20,9 @@ const AdminSideBar = () => {
       </div>
 
       <div
-        className={`
-        h-[calc(100vh-80px)]
-    bg-blue-500
-    w-[200px]
-    fixed
-    bottom-0
-    left-0
-    z-50
-    p-4
-    pt-9
-    transition
-    overflow-y-auto
-    flex
-    gap-2
-    flex-col
-    md:translate-x-0
-    ${showMenu ? "translate-x-0" : "-translate-x-full"}
-  `}
+        className={`h-[calc(100vh-80px)] bg-blue-500 w-[200px] fixed bottom-0 left-0 z-50 p-4 pt-9 transition overflow-y-auto flex gap-2 flex-col md:translate-x-0 ${
+          showMenu ? "translate-x-0" : "-translate-x-full"
+        } `}
       >
         <HiXMark
           size={30}
@@ -57,6 +43,11 @@ const AdminSideBar = () => {
           title="Series"
           link="/admin/series"
           icon={SiSteelseries}
+        />
+        <AdminSideBarItems
+          title="Advertisments"
+          link="/admin/ads"
+          icon={RiAdvertisementFill}
         />
       </div>
     </>
