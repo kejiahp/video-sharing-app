@@ -5,6 +5,7 @@ import { HiXMark } from "react-icons/hi2";
 import { MdOutlineLocalMovies } from "react-icons/md";
 import { BiCategoryAlt } from "react-icons/bi";
 import { SiSteelseries } from "react-icons/si";
+import { FiUsers } from "react-icons/fi";
 import { RiAdvertisementFill } from "react-icons/ri";
 import Button from "../utilities/button/Button";
 
@@ -48,6 +49,11 @@ const AdminSideBar = () => {
           title="Advertisments"
           link="/admin/ads"
           icon={RiAdvertisementFill}
+        />
+        <AdminSideBarItems
+          title="Users"
+          link="/admin/userdata"
+          icon={FiUsers}
         />
       </div>
     </>

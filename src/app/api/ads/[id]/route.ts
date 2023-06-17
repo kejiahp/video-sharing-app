@@ -71,3 +71,28 @@ export async function DELETE(
     return new Response("Internal Error", { status: 500 });
   }
 }
+
+export async function GET(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    await dbConnect();
+
+    if (!params?.id) {
+      return new Response("Invalid id", { status: 400 });
+    }
+
+    const advert = await AdsModel.findById(params.id);
+
+    if (!advert) {
+      return new Response("advert not found", { status: 404 });
+    }
+
+    return new Response(JSON.stringify(advert), { status: 200 });
+  } catch (err: any) {
+    console.log(err);
+    console.log("ERROR GET SINGLE ADVERT");
+    return new Response("Internal Server Error", { status: 500 });
+  }
+}

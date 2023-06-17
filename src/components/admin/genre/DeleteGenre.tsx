@@ -53,7 +53,7 @@ const DeleteGenre = () => {
       disabled={isLoading}
       header="Delete Genre"
       subHeader="Are You sure you want to Delete this genre?"
-      submitText="Submit"
+      submitText="Delete"
       closeText={"Cancel"}
       bodyContent={bodyContent}
       onSubmitfn={onSubmitHandler}
