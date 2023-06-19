@@ -117,7 +117,16 @@ export async function GET(
 
     const movie = await MovieModel.findById(params.id);
 
-    if (!movie) return new Response("moive not found", { status: 404 });
+    if (!movie) return new Response("movie not found", { status: 404 });
+
+    if (movie.isSeries === "true") {
+      const series = await SeriesModel.findOne({ movieId: movie._id });
+
+      if (series) {
+        const payload = { ...movie.toJSON(), series: series.toJSON() };
+        return new Response(JSON.stringify(payload), { status: 200 });
+      }
+    }
 
     return new Response(JSON.stringify(movie), { status: 200 });
   } catch (err: any) {

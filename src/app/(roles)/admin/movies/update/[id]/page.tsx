@@ -16,6 +16,7 @@ import {
   MovieUpdateSchemaType,
   movieupdateschema,
 } from "@/schema/movie.schema";
+import { dateformatter } from "@/utils/date-formatter";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useParams, useRouter } from "next/navigation";
@@ -260,6 +261,9 @@ const Page = () => {
           rows={3}
           register={register}
         />
+        <small>
+          current release date: {dateformatter(new Date(data?.releaseDate))}
+        </small>
         <Input
           id={"releaseDate"}
           label={"Release Date"}

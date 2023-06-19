@@ -30,7 +30,7 @@ const UserDataItem = ({ email, _id, type, createdAt }: Props) => {
               useMakeAdminHandler({ email: email, _id: _id, type: type })
             }
           >
-            MAKE ADMIN
+            UPDATE ROLE
           </Button>
         </div>
       </div>

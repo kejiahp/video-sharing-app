@@ -9,12 +9,16 @@ import React from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import useSWR from "swr";
 
-type PartiallySafeUser = (Omit<IUser, "createdAt"> & { _id: string; createdAt: string })[]
+type PartiallySafeUser = Omit<IUser, "createdAt"> & {
+  _id: string;
+  createdAt: string;
+};
 
 const Page = () => {
-  const { isLoading, data, error } = useSWR<
-  PartiallySafeUser
-  >(`/api/userdata`, fetcher);
+  const { isLoading, data, error } = useSWR<PartiallySafeUser[]>(
+    `/api/userdata`,
+    fetcher
+  );
 
   const {
     register,
@@ -25,8 +29,6 @@ const Page = () => {
       email: "",
     },
   });
-
-  const emailFilter = (users:[])
 
   if (isLoading) {
     return <Loader loading={true} />;
@@ -45,6 +47,17 @@ const Page = () => {
     );
   }
 
+  const emailFilter = (data: PartiallySafeUser[]) => {
+    const filterBy = watch("email");
+    const filteredData = data.filter((item) => {
+      return Object.values(item)
+        .join("")
+        .toLowerCase()
+        .includes(filterBy.toLowerCase());
+    });
+    return filteredData;
+  };
+
   return (
     <>
       <div className="">
@@ -60,7 +73,7 @@ const Page = () => {
 
       <div className="">
         <h1 className="text-2xl text-gray-500 my-4">All Users</h1>
-        {data
+        {emailFilter(data)
           .filter((item) => item.is_verified === true)
           .map((item, index) => (
             <UserDataItem

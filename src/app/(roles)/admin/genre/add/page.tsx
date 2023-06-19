@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/components/utilities/button/Button";
-import TextArea from "@/components/utilities/textarea/TextArea";
+import Input from "@/components/utilities/input/Input";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -37,14 +37,13 @@ const Page = () => {
     <div>
       <h1 className="text-2xl text-gray-500">Create Genre Page</h1>
       <form className="mt-4" onSubmit={handleSubmit(onSubmitHandler)}>
-        <TextArea
+        <Input
           id={"name"}
           label={"Name"}
           disabled={false}
           required={true}
           errors={errors}
           register={register}
-          rows={5}
         />
         <Button sec isSmall disable={isLoading}>
           SAVE
