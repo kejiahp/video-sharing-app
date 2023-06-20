@@ -14,7 +14,7 @@ import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import useSWR, { mutate } from "swr";
 
-const page = () => {
+const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const {
     isLoading: userDataLoading,
@@ -144,4 +144,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

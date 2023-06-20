@@ -1,15 +1,18 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const Logo = () => {
   return (
     <>
       <Link href={"/"} className="-m-1.5 p-1.5">
         <span className="sr-only">Clever video sharing</span>
-        <img
+        <Image
           className="h-8 w-auto"
-          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+          src="/Logo.jpg"
           alt=""
+          width={100}
+          height={100}
         />
       </Link>
     </>

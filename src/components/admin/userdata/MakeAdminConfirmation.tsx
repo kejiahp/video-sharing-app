@@ -40,8 +40,9 @@ export default function MakeAdminConfirmation() {
       </div>
       <div>
         <p className="font-semibold text-rose-500">
-          this user role will be updated from "
-          {makeAdminConfirmationCtrl.data?.type}" to "{roleChecker()}"
+          this user role will be updated from &quot;
+          {makeAdminConfirmationCtrl.data?.type}&quot; to &quot;{roleChecker()}
+          &quot;
         </p>
       </div>
     </div>

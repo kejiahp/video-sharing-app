@@ -113,7 +113,7 @@ function MovieCard({
       </Link>
       {isFavouritePage && (
         <Button isSmall onClick={removeMovieFromFavourites}>
-          Remove from favourite's
+          Remove from favourite&apos;s
         </Button>
       )}
     </div>

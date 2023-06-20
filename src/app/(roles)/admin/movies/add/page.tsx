@@ -69,7 +69,7 @@ const Page = () => {
       shouldTouch: true,
       shouldValidate: true,
     });
-  }, [selectedGenre]);
+  }, [selectedGenre, setValue]);
 
   let genreOptions = [];
   if (data) {

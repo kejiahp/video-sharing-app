@@ -22,7 +22,7 @@ import {
 import { toast } from "react-hot-toast";
 import useSWR, { mutate } from "swr";
 
-const page = () => {
+const Page = () => {
   const params = useParams();
   const router = useRouter();
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
@@ -165,4 +165,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

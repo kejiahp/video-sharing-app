@@ -65,7 +65,7 @@ const UpdateAdvert = () => {
 
       reset(mainData);
     }
-  }, [data, reset]);
+  }, [data, reset, mutateFetch]);
 
   const bodyContent = (
     <div>

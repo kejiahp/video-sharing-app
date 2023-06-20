@@ -11,15 +11,15 @@ interface GenreItemProps {
 }
 
 const GenreItem: React.FC<GenreItemProps> = ({ _id, name, createdAt }) => {
-  const useRenameOpen = useRenameGenre.getState().onOpen;
-  const useDeleteOpen = useDeleteGenre.getState().onOpen;
+  const handleRenameOpen = useRenameGenre.getState().onOpen;
+  const handleDeleteOpen = useDeleteGenre.getState().onOpen;
 
   const onUpdateHandler = (data: any) => {
-    useRenameOpen(data);
+    handleRenameOpen(data);
   };
 
   const onDeleteHandler = (data: any) => {
-    useDeleteOpen(data);
+    handleDeleteOpen(data);
   };
 
   return (

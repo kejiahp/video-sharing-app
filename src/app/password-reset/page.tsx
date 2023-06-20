@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 
 type Props = {};
 
-function page({}: Props) {
+function Page({}: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -93,4 +93,4 @@ function page({}: Props) {
   );
 }
 
-export default page;
+export default Page;

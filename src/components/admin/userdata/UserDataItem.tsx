@@ -12,7 +12,7 @@ interface Props {
 }
 
 const UserDataItem = ({ email, _id, type, createdAt }: Props) => {
-  const useMakeAdminHandler = useMakeAdmin.getState().onOpen;
+  const handleMakeAdminHandler = useMakeAdmin.getState().onOpen;
   return (
     <>
       <div className="my-1 px-2 flex flex-col sm:flex-row items-center justify-between">
@@ -27,7 +27,7 @@ const UserDataItem = ({ email, _id, type, createdAt }: Props) => {
             sec
             isSmall
             onClick={() =>
-              useMakeAdminHandler({ email: email, _id: _id, type: type })
+              handleMakeAdminHandler({ email: email, _id: _id, type: type })
             }
           >
             UPDATE ROLE

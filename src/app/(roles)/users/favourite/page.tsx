@@ -7,7 +7,7 @@ import EmptyState from "@/components/utilities/EmptyState";
 import { IFavourites } from "@/models/Favourite.models";
 import { IMovie } from "@/models/Movie.model";
 
-const page = () => {
+const Page = () => {
   const { isLoading, error, data } = useSWR<
     Omit<IFavourites, "movies"> & {
       movies: (IMovie & { _id: string })[];
@@ -38,4 +38,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

@@ -87,7 +87,7 @@ const Login = ({ searchParams }: LoginProps) => {
         </Button>
         <div className="">
           <div>
-            don't have an account?. click here to{" "}
+            don&apos;t have an account?. click here to{" "}
             <Link href={"/register"} className="text-blue-500">
               register
             </Link>

@@ -31,14 +31,14 @@ const Modal: React.FC<ModalProps> = ({
     }
 
     onSubmitfn();
-  }, [onSubmitfn]);
+  }, [onSubmitfn, disabled]);
   const handleClose = useCallback(() => {
     if (disabled) {
       return;
     }
 
     onClosefn();
-  }, [onClosefn]);
+  }, [onClosefn, disabled]);
 
   if (!isOpen) {
     return null;
