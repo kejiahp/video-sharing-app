@@ -40,27 +40,29 @@ const MovieCategory: React.FC<MovieCategoryProps> = ({
     );
   }
   return (
-    <Container>
-      <div className="">
-        <h1 className="text-3xl text-blue-500 my-3">{header}</h1>
-        <p className="text-gray-500">{subheader}</p>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {movies.map((item, index) => (
-          <MovieCard
-            key={index}
-            _id={item._id}
-            isFavouritePage={isFavouritePage}
-            name={item.name}
-            mainImg={item.mainImg}
-            createdAt={item.createdAt as unknown as string}
-            duration={item.duration}
-            quality={item.quality}
-            isSeries={item.isSeries}
-          />
-        ))}
-      </div>
-    </Container>
+    <div className="my-10">
+      <Container>
+        <div>
+          <h1 className="text-3xl text-blue-500 my-5">{header}</h1>
+          <p className="text-gray-500">{subheader}</p>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {movies.map((item, index) => (
+            <MovieCard
+              key={index}
+              _id={item._id}
+              isFavouritePage={isFavouritePage}
+              name={item.name}
+              mainImg={item.mainImg}
+              createdAt={item.createdAt as unknown as string}
+              duration={item.duration}
+              quality={item.quality}
+              isSeries={item.isSeries}
+            />
+          ))}
+        </div>
+      </Container>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import fetcher from "@/libs/fetcher";
 import Loader from "@/components/loader/Loader";
@@ -24,6 +24,8 @@ import Footer from "@/components/footer/Footer";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import Comments from "@/components/comments/Comments";
+import { IComment } from "@/models/Comments.model";
 
 type Props = {};
 
@@ -31,6 +33,7 @@ function Page({}: Props) {
   const params = useParams();
   const session = useSession();
   const router = useRouter();
+  const [liking, setLiking] = useState<boolean>(false);
   const { data, isLoading, error } = useSWR<
     Omit<IMovie, "genre"> & { genre: string[]; series: ISeries }
   >(`/api/movie/${params?.id || ""}`, fetcher);
@@ -46,6 +49,17 @@ function Page({}: Props) {
     data: movieData,
     error: movieError,
   } = useSWR(`/api/movie/filter?limit=16&exclude=${params?.id || ""}`, fetcher);
+
+  const {
+    isLoading: commentsLoading,
+    data: commentsData,
+    error: commentsError,
+  } = useSWR<
+    (Omit<IComment, "userId"> & {
+      _id: string;
+      userId: { username: string; _id: string };
+    })[]
+  >(`/api/movie/comment?movieId=${params?.id || ""}`, fetcher);
 
   if (isLoading || genreLoading) {
     return <Loader loading={true} />;
@@ -94,15 +108,55 @@ function Page({}: Props) {
     }
   };
 
+  const increaseViewCountHandler = (downLoadLink: string) => {
+    axios
+      .patch(`/api/movie/view-count/${params?.id}`)
+      .then(() => {
+        // window.location.href = downLoadLink;
+        router.push(downLoadLink);
+      })
+      .catch(() => {
+        console.log("Something went wrong");
+        router.push(downLoadLink);
+      });
+  };
+
+  const likeDislikeHandler = (action: string) => {
+    if (session.status === "authenticated") {
+      let payload = { action: "", movieId: params?.id };
+      if (action === "like") {
+        payload.action = "like";
+      } else {
+        payload.action = "dislike";
+      }
+      setLiking(true);
+
+      axios
+        .patch(`/api/movie/like-dislike`, payload)
+        .then(() => {
+          router.refresh();
+        })
+        .catch(() => {
+          console.log("Something went wrong");
+        })
+        .finally(() => {
+          setLiking(false);
+        });
+    } else {
+      toast.error("login to perform this action");
+    }
+  };
+
   return (
     <>
       <div className="mt-4">
         <Image
           alt=""
           src={data.coverImg}
-          width={100}
-          height={100}
-          className="w-full h-60 md:h-[400px] object-cover object-center"
+          width={900}
+          height={450}
+          priority
+          className="w-full h-60 md:h-[500px] object-cover object-top"
         />
         <Container>
           <section className="rounded-xl p-1 sm:p-8 my-6 lg:-mt-16 bg-white relative flex flex-col sm:flex-row gap-4">
@@ -118,33 +172,38 @@ function Page({}: Props) {
               <div className="flex items-center m-1 gap-3">
                 <p className="text-sm">
                   <span className="font-semibold text-blue-500">likes: </span>
-                  {data.likes.count}
-                </p>
-                <p className="text-sm">
-                  <span className="font-semibold text-gray-500">
-                    dislikes:{" "}
-                  </span>
-                  {data.dislikes.count}
+                  {data.likes.length}
                 </p>
               </div>
 
+              {liking && <small className="text-xs">loading...</small>}
+
               <div className="flex items-center gap-5">
-                <Button isSmall sec>
+                <Button isSmall sec onClick={() => likeDislikeHandler("like")}>
                   like
                 </Button>
-                <Button isSmall>dislike</Button>
+                <Button isSmall onClick={() => likeDislikeHandler("dislike")}>
+                  dislike
+                </Button>
               </div>
             </div>
 
             <div className="">
               <div className="flex items-center gap-1 sm:gap-7">
-                <Link href={data.downloadLink} target="_blank">
+                {data.availability !== "available" || !data.downloadLink ? (
                   <Button isSmall sec>
-                    {data.availability !== "available"
-                      ? "Coming Soon"
-                      : "Download"}
+                    Coming Soon
                   </Button>
-                </Link>
+                ) : (
+                  <Button
+                    onClick={() => increaseViewCountHandler(data.downloadLink)}
+                    isSmall
+                    sec
+                  >
+                    Download
+                  </Button>
+                )}
+
                 <Button isSmall onClick={addToFavouritesHandler}>
                   <div className="flex items-center gap-3">
                     <BiPlus size={20} />
@@ -217,37 +276,39 @@ function Page({}: Props) {
         </Container>
       </div>
 
-      {data.series ? (
+      {data.isSeries === "true" ? (
         <Container>
-          <div className="my-5">
-            <h1 className="text-2xl font-semibold my-2">Seasons</h1>
-            <div className="">
-              {data.series.seasons.map((item, index) => (
-                <section key={index} className="">
-                  <p className="font-semibold my-2">{item.seasonName}</p>
+          {data.series.seasons?.length > 0 ? (
+            <div className="my-5">
+              <h1 className="text-2xl font-semibold my-2">Seasons</h1>
+              <div className="">
+                {data.series.seasons.map((item, index) => (
+                  <section key={index} className="">
+                    <p className="font-semibold my-2">{item.seasonName}</p>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    {item.episodes.map((item, index) => (
-                      <div
-                        className="flex flex-col gap-1 border border-solid border-gray-500 rounded-md p-1 bg-gray-200"
-                        key={index}
-                      >
-                        <p className="text-sm">{item.episodeName}</p>
-                        <Link
-                          className="text-blue-500 text-sm underline"
-                          href={item.downloadLink}
-                          target="_blank"
-                          prefetch={false}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                      {item.episodes.map((item, index) => (
+                        <div
+                          className="flex flex-col gap-1 border border-solid border-gray-500 rounded-md p-1 bg-gray-200"
+                          key={index}
                         >
-                          click to download
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              ))}
+                          <p className="text-sm">{item.episodeName}</p>
+                          <Link
+                            className="text-blue-500 text-sm underline"
+                            href={item.downloadLink}
+                            target="_blank"
+                            prefetch={false}
+                          >
+                            click to download
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
             </div>
-          </div>
+          ) : null}
         </Container>
       ) : null}
 
@@ -256,6 +317,13 @@ function Page({}: Props) {
         error={movieError}
         header={"You May Also Like"}
         movies={movieData}
+      />
+
+      <Comments
+        movieId={params?.id}
+        isLoading={commentsLoading}
+        error={commentsError}
+        comments={commentsData!}
       />
 
       <Footer />

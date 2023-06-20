@@ -1,18 +1,16 @@
 "use client";
 import Footer from "@/components/footer/Footer";
+import MovieCategory from "@/components/movies/movie-category/MovieCategory";
 import NewsLetterSubscription from "@/components/newslettersubscription/NewsLetterSubscription";
 import React from "react";
-import useSWR from "swr";
 import fetcher from "@/libs/fetcher";
-import MovieCategory from "@/components/movies/movie-category/MovieCategory";
-import { useParams } from "next/navigation";
+import useSWR from "swr";
 
 type Props = {};
 
 function Page({}: Props) {
-  const params = useParams();
   const { isLoading, error, data } = useSWR(
-    `/api/movie/filter?genre=${params?.id || ""}`,
+    `/api/movie/filter?series=false`,
     fetcher
   );
 
@@ -23,7 +21,7 @@ function Page({}: Props) {
           isLoading={isLoading}
           error={error}
           movies={data}
-          header={`Genre "${params?.name.replace("-", " ")}"`}
+          header={`Movies`}
         />
       </div>
       <NewsLetterSubscription />

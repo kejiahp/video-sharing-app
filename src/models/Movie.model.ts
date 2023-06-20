@@ -1,10 +1,4 @@
 import mongoose from "mongoose";
-import { boolean, string } from "zod";
-
-interface LikeDislikeInterface {
-  count: number;
-  users: mongoose.Types.ObjectId[];
-}
 
 export interface IMovie {
   name: string;
@@ -19,8 +13,7 @@ export interface IMovie {
   duration: number;
   country: string;
   production: string;
-  likes: LikeDislikeInterface;
-  dislikes: LikeDislikeInterface;
+  likes: mongoose.Types.ObjectId[];
   quality: string;
   imdbRating: number;
   downloadLink: string;
@@ -77,18 +70,9 @@ const MovieSchema = new mongoose.Schema<IMovie>(
       type: String,
       required: [true, "production is required"],
     },
-    likes: {
-      count: { type: Number, required: false, default: 0 },
-      users: [
-        { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
-      ],
-    },
-    dislikes: {
-      count: { type: Number, required: false, default: 0 },
-      users: [
-        { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
-      ],
-    },
+    likes: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "User", required: false },
+    ],
     quality: {
       type: String,
       default: "HD",

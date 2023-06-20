@@ -1,6 +1,5 @@
 import GenreModel from "@/models/Genre.model";
 import dbConnect from "@/utils/db-connect";
-import getCurrentUser from "./getCurrentUser";
 
 interface IGenre {
   name?: string;
@@ -8,12 +7,6 @@ interface IGenre {
 
 export default async function getGenres(params?: IGenre) {
   try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser) {
-      return new Response("Unauthorized User", { status: 401 });
-    }
-
     await dbConnect();
 
     let query: any = {};

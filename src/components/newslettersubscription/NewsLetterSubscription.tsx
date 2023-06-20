@@ -4,11 +4,19 @@ import Button from "../utilities/button/Button";
 import Input from "../utilities/input/Input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { newsletterschema } from "@/schema/newsletter.schema";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const NewsLetterSubscription = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues>({
     resolver: zodResolver(newsletterschema),
@@ -17,8 +25,30 @@ const NewsLetterSubscription = () => {
     },
   });
 
-  const onSubmitHandler: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const onSubmitHandler: SubmitHandler<FieldValues> = (data, event) => {
+    event?.preventDefault();
+
+    setIsLoading(true);
+
+    axios
+      .post(`/api/newletter`, { ...data })
+      .then(() => {
+        toast.success("you have subscribed to our newsletter");
+        reset();
+        router.refresh();
+      })
+      .catch((err) => {
+        if (
+          err.response.data === "you have already subscribed to our newsletter"
+        ) {
+          toast.error("you have already subscribed to our newsletter");
+        } else {
+          toast.error("newletter subscription failed");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -69,7 +99,7 @@ const NewsLetterSubscription = () => {
             <Input
               id={"email"}
               label={"Email"}
-              disabled={false}
+              disabled={isLoading}
               required={true}
               errors={errors}
               type="email"
@@ -77,7 +107,7 @@ const NewsLetterSubscription = () => {
               isIcon={false}
             />
           </div>
-          <Button>Subscribe Our Newsletter</Button>
+          <Button disable={isLoading}>Subscribe Our Newsletter</Button>
         </form>
       </section>
     </div>

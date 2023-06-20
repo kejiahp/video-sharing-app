@@ -6,19 +6,26 @@ import { BsSearch } from "react-icons/bs";
 import Button from "../utilities/button/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { searchbarschema } from "@/schema/searchbar.schema";
+import { useRouter } from "next/navigation";
 
 const SearchBar = () => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FieldValues>({
     resolver: zodResolver(searchbarschema),
     defaultValues: { keywords: "" },
   });
 
-  const onSubmitHandler: SubmitHandler<FieldValues> = (event, data) => {
-    console.log(data);
+  const onSubmitHandler: SubmitHandler<FieldValues> = (data, event) => {
+    event?.preventDefault();
+    const dataSearchQuery = encodeURI(data.keywords);
+    reset();
+    router.push(`/search?q=${dataSearchQuery}`);
   };
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)} className="mt-5">

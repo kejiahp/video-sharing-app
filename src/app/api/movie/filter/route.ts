@@ -10,9 +10,16 @@ export async function GET(req: Request) {
     const searchParams = newURL.searchParams;
 
     //   let query: any = {};
+    let searchQuery: any = {
+      createdAt: -1,
+    };
 
-    const moviesQuery = MovieModel.find({}).sort({
-      createdAt: "descending",
+    if (searchParams.has("trending")) {
+      searchQuery = { viewCount: -1, ...searchQuery };
+    }
+
+    const moviesQuery = MovieModel.find().sort({
+      ...searchQuery,
     });
 
     if (searchParams.get("exclude")) {

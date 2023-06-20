@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AdminSideBarItems from "./AdminSideBarItems";
 import { HiXMark } from "react-icons/hi2";
 import { MdOutlineLocalMovies } from "react-icons/md";
-import { BiCategoryAlt } from "react-icons/bi";
+import { BiCategoryAlt, BiNews } from "react-icons/bi";
 import { SiSteelseries } from "react-icons/si";
 import { FiUsers } from "react-icons/fi";
 import { RiAdvertisementFill } from "react-icons/ri";
@@ -54,6 +54,11 @@ const AdminSideBar = () => {
           title="Users"
           link="/admin/userdata"
           icon={FiUsers}
+        />
+        <AdminSideBarItems
+          title="NewsLetters"
+          link="/admin/newsletters"
+          icon={BiNews}
         />
       </div>
     </>

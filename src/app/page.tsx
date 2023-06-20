@@ -6,7 +6,6 @@ import NewsLetterSubscription from "@/components/newslettersubscription/NewsLett
 import { useEffect } from "react";
 import useSWR from "swr";
 import fetcher from "@/libs/fetcher";
-import Loader from "@/components/loader/Loader";
 
 export default function Home({
   searchParams,
@@ -23,20 +22,59 @@ export default function Home({
     showError();
   }, [searchParams?.message]);
 
-  const { isLoading, error, data } = useSWR(`/api/movie`, fetcher);
+  const { isLoading, error, data } = useSWR(
+    `/api/movie/filter?limit=18`,
+    fetcher
+  );
 
-  if (error) {
-    throw new Error("Can't fetch the movies");
-  }
+  const {
+    isLoading: trendingLoading,
+    error: trendingError,
+    data: trendingData,
+  } = useSWR(`/api/movie/filter?limit=18&trending=true`, fetcher);
 
-  if (isLoading) {
-    return <Loader loading={true} />;
-  }
+  const {
+    isLoading: seriesLoading,
+    error: seriesError,
+    data: seriesData,
+  } = useSWR(`/api/movie/filter?limit=18&series=true`, fetcher);
+
+  const {
+    isLoading: comingSoonLoading,
+    error: comingSoonError,
+    data: comingSoonData,
+  } = useSWR(`/api/movie/filter?limit=18&unavailable=true`, fetcher);
 
   return (
     <main>
       <Hero />
-      <MovieCategory movies={data} header="New Releases" />
+      <MovieCategory
+        isLoading={trendingLoading}
+        error={trendingError}
+        movies={trendingData}
+        header="Trending"
+      />
+
+      <MovieCategory
+        isLoading={isLoading}
+        error={error}
+        movies={data}
+        header="New Releases"
+      />
+
+      <MovieCategory
+        isLoading={seriesLoading}
+        error={seriesError}
+        movies={seriesData}
+        header="Latest Series"
+      />
+
+      <MovieCategory
+        isLoading={comingSoonLoading}
+        error={comingSoonError}
+        movies={comingSoonData}
+        header="Comming Soon"
+      />
       <NewsLetterSubscription />
       <Footer />
     </main>

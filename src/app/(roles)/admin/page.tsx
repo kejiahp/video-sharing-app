@@ -1,5 +1,11 @@
 const pages = () => {
-  return <h1 className="text-rose-400">This is the admin page</h1>;
+  return (
+    <div className="flex items-center justify-center min-h-[80vh] ">
+      <h1 className="text-4xl font-semibold text-blue-500">
+        Welcome Administrator
+      </h1>
+    </div>
+  );
 };
 
 export default pages;

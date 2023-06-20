@@ -92,6 +92,10 @@ const Login = ({ searchParams }: LoginProps) => {
               register
             </Link>
           </div>
+
+          <div className="text-blue-500 my-5 text-center">
+            <Link href={"/forgot-password"}>forgot password?</Link>
+          </div>
         </div>
       </form>
     </>

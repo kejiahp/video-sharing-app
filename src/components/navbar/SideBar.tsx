@@ -8,11 +8,12 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import UserIcon from "./UserIcon";
+import Link from "next/link";
 
 interface SideBarProps {
   mobileMenuOpen: boolean;
   setMobileMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  navigation: NavBarItemType[];
+  navigation: any;
 }
 
 const SideBar: React.FC<SideBarProps> = ({
@@ -55,23 +56,24 @@ const SideBar: React.FC<SideBarProps> = ({
         </div>
         <div className="mt-12 flow-root">
           <div className="-my-6 divide-y divide-gray-500/10">
-            {/* <div className="space-y-2 py-6">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div> */}
-            {navigation.map((item, index) => (
-              <NavBarDisclosure
-                key={index}
-                name={item.name}
-                listings={item.listings}
-              />
-            ))}
+            <div>
+              <Link
+                href={"/series"}
+                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >
+                Series
+              </Link>
+            </div>
+            <div>
+              <Link
+                href={"/movies"}
+                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >
+                Movies
+              </Link>
+            </div>
+
+            <NavBarDisclosure name={"Genre"} listings={navigation} />
 
             <div className="py-6">
               {session.status === "authenticated" ? (

@@ -10,6 +10,7 @@ import { signOut, useSession } from "next-auth/react";
 import { navigation } from "@/constants/navbar.constants";
 import { toast } from "react-hot-toast";
 import UserIcon from "./UserIcon";
+import { IGenre } from "@/models/Genre.model";
 
 export type NavBarItemType = {
   name: string;
@@ -19,7 +20,11 @@ export type NavBarItemType = {
   }[];
 };
 
-export default function NavBar() {
+interface NavBarProps {
+  genreAll: (IGenre & { _id: string })[];
+}
+
+export default function NavBar({ genreAll }: NavBarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const session = useSession();
 
@@ -44,24 +49,22 @@ export default function NavBar() {
                 <AiOutlineBars className="h-6 w-6" aria-hidden="true" />
               </button>
             </div>
-            <div className="hidden lg:flex lg:gap-x-12">
-              {/* {navigation.map((item) => (
-      <a
-        key={item.name}
-        href={item.href}
-        className="text-sm font-semibold leading-6 text-gray-900"
-      >
-        {item.name}
-      </a>
-    ))} */}
 
-              {navigation.map((item, index) => (
-                <NavBarPopover
-                  key={index}
-                  title={item.name}
-                  listings={item.listings}
-                />
-              ))}
+            <div className="hidden lg:flex items-center lg:gap-x-12">
+              <Link
+                href={"/series"}
+                className="font-semibold leading-6 text-gray-900 mr-12"
+              >
+                Series
+              </Link>
+              <Link
+                href={"/movies"}
+                className="font-semibold leading-6 text-gray-900 mr-12"
+              >
+                Movies
+              </Link>
+              {/*@ts-ignore */}
+              <NavBarPopover title={"Genre"} listings={genreAll} />
             </div>
 
             {session.status === "authenticated" ? (
@@ -91,7 +94,7 @@ export default function NavBar() {
           <SideBar
             mobileMenuOpen={mobileMenuOpen}
             setMobileMenuOpen={setMobileMenuOpen}
-            navigation={navigation}
+            navigation={genreAll}
           />
         </header>
       </div>
