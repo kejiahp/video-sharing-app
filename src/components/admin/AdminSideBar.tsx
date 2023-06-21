@@ -46,7 +46,7 @@ const AdminSideBar = () => {
           icon={SiSteelseries}
         />
         <AdminSideBarItems
-          title="Advertisments"
+          title="Advertisements"
           link="/admin/ads"
           icon={RiAdvertisementFill}
         />

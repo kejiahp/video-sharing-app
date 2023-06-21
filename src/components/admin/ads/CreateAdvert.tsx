@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { SubmitHandler, useForm, FieldValues } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { string } from "zod";
+import { mutate } from "swr";
 
 interface Props {}
 
@@ -64,6 +64,8 @@ const CreateAdvert = (props: Props) => {
         .post(`/api/ads`, { image: uploadedImage.data.secure_url, ...payload })
         .then(() => {
           toast.success("advert created");
+          mutate("/api/ads");
+          reset();
           router.refresh();
           createAdvertCtrl.onClose();
         })

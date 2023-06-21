@@ -9,7 +9,7 @@ interface SearchPageProps {
   searchParams?: { [key: string]: string | string[] | undefined };
 }
 
-const page = async ({ searchParams }: SearchPageProps) => {
+const Page = async ({ searchParams }: SearchPageProps) => {
   const genres: (IGenre & { _id: string })[] = await getGenres({
     name: searchParams?.q as string,
   });
@@ -37,4 +37,4 @@ const page = async ({ searchParams }: SearchPageProps) => {
   );
 };
 
-export default page;
+export default Page;

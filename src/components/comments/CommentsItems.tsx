@@ -11,6 +11,7 @@ import { mutate } from "swr";
 type Props = {
   commentId: string;
   userId: string;
+  movieId: string;
   username: string;
   comment: string;
   session: SessionContextValue;
@@ -19,6 +20,7 @@ type Props = {
 
 const CommentsItems = ({
   commentId,
+  movieId,
   userId,
   session,
   username,
@@ -35,7 +37,7 @@ const CommentsItems = ({
       .delete(`/api/movie/comment/${comment}`)
       .then(() => {
         toast.success("comment deleted");
-        mutate(`/api/movie/comment`);
+        mutate(`/api/movie/comment?movieId=${movieId}`);
         router.refresh();
       })
       .catch(() => {

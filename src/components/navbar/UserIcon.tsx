@@ -24,7 +24,11 @@ const UserIcon = () => {
         { title: "Favourites", link: "/users/favourite" },
       ];
     } else {
-      return [{ title: "Profile", link: "/admin" }];
+      return [
+        { title: "Admin", link: "/admin" },
+        { title: "Profile", link: "/users/profile" },
+        { title: "Favourites", link: "/users/favourite" },
+      ];
     }
   };
 

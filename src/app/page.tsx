@@ -6,6 +6,8 @@ import NewsLetterSubscription from "@/components/newslettersubscription/NewsLett
 import { useEffect } from "react";
 import useSWR from "swr";
 import fetcher from "@/libs/fetcher";
+import Adverts from "@/components/adverts/Adverts";
+import { IAds } from "@/models/Ads.model";
 
 export default function Home({
   searchParams,
@@ -45,6 +47,12 @@ export default function Home({
     data: comingSoonData,
   } = useSWR(`/api/movie/filter?limit=18&unavailable=true`, fetcher);
 
+  const {
+    isLoading: adsLoading,
+    error: adsError,
+    data: adsData,
+  } = useSWR<IAds[]>(`/api/ads?page=home`, fetcher);
+
   return (
     <main>
       <Hero />
@@ -54,6 +62,9 @@ export default function Home({
         movies={trendingData}
         header="Trending"
       />
+      {adsData && adsData[0] ? (
+        <Adverts isLoading={adsLoading} error={adsError} advert={adsData[0]} />
+      ) : null}
 
       <MovieCategory
         isLoading={isLoading}
@@ -62,6 +73,10 @@ export default function Home({
         header="New Releases"
       />
 
+      {adsData && adsData[1] ? (
+        <Adverts isLoading={adsLoading} error={adsError} advert={adsData[1]} />
+      ) : null}
+
       <MovieCategory
         isLoading={seriesLoading}
         error={seriesError}
@@ -69,12 +84,21 @@ export default function Home({
         header="Latest Series"
       />
 
+      {adsData && adsData[2] ? (
+        <Adverts isLoading={adsLoading} error={adsError} advert={adsData[2]} />
+      ) : null}
+
       <MovieCategory
         isLoading={comingSoonLoading}
         error={comingSoonError}
         movies={comingSoonData}
         header="Comming Soon"
       />
+
+      {adsData && adsData[3] ? (
+        <Adverts isLoading={adsLoading} error={adsError} advert={adsData[3]} />
+      ) : null}
+
       <NewsLetterSubscription />
       <Footer />
     </main>

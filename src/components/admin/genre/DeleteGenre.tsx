@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import { mutate } from "swr";
 
 const DeleteGenre = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,6 +37,7 @@ const DeleteGenre = () => {
       .delete(`/api/genre/${deleteModalCtrl.data._id}`)
       .then(() => {
         toast.success("genre deleted successfully");
+        mutate(`/api/genre`);
         router.refresh();
         deleteModalCtrl.onClose();
       })

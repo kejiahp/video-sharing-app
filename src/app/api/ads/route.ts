@@ -4,6 +4,8 @@ import { apicreateadvertvalidator } from "@/schema/ads.schema";
 import { SafeUser } from "@/types/SafeUser";
 import dbConnect from "@/utils/db-connect";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const currentUser: SafeUser = await getCurrentUser();

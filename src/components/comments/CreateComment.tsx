@@ -36,7 +36,7 @@ function CreateComment({ session, movieId }: Props) {
       .post(`/api/movie/comment`, { movieId: movieId, ...data })
       .then(() => {
         toast.success("comment posted");
-        mutate(`/api/movie/comment`);
+        mutate(`/api/movie/comment?movieId=${movieId}`);
         reset();
         router.refresh();
       })

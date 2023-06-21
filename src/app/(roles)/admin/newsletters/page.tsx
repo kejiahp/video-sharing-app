@@ -46,7 +46,7 @@ function Page({}: Props) {
         subHeader="all newletter emails"
         href={""}
       />
-      <div className="my-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      <div className="my-10 flex flex-col gap-4">
         {data.map((item, index) => (
           <div key={index} className="text-gray-500 text-lg">
             {item.email}

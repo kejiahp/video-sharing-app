@@ -30,7 +30,6 @@ const Page = () => {
         header={"Favourite movies"}
         error={error}
         isLoading={isLoading}
-        subheader="favourite movies"
         isFavouritePage={true}
         movies={data.movies}
       />

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import FooterListItems from "./FooterListItems";
 
@@ -10,8 +11,7 @@ const Footer = () => {
             <p className="uppercase text-black md:mb-6">Legal</p>
             <ul className="list-reset mb-6">
               {[
-                { title: "Terms & Conditions", link: "" },
-                { title: "Privacy", link: "" },
+                { title: "Terms & Conditions", link: "/terms-and-conditions" },
               ].map((item, index) => (
                 <FooterListItems
                   key={index}
@@ -41,9 +41,8 @@ const Footer = () => {
             <p className="uppercase text-black md:mb-6">Company</p>
             <ul className="list-reset mb-6">
               {[
-                { title: "Official Blog", link: "" },
-                { title: "About Us", link: "" },
-                { title: "Contact Us", link: "" },
+                { title: "080 00002 202", link: "" },
+                { title: "test@gmail.com", link: "" },
               ].map((item, index) => (
                 <FooterListItems
                   key={index}

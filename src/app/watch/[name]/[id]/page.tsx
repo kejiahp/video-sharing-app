@@ -1,7 +1,7 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import fetcher from "@/libs/fetcher";
 import Loader from "@/components/loader/Loader";
 import { IMovie } from "@/models/Movie.model";
@@ -94,6 +94,7 @@ function Page({}: Props) {
         .post(`/api/movie/favourite`, { movieId: params?.id })
         .then(() => {
           toast.success("added to favourites");
+          mutate(`/api/movie/favourite`);
           router.refresh();
         })
         .catch((err) => {
@@ -113,6 +114,7 @@ function Page({}: Props) {
       .patch(`/api/movie/view-count/${params?.id}`)
       .then(() => {
         // window.location.href = downLoadLink;
+        mutate(`/api/movie/${params?.id}`);
         router.push(downLoadLink);
       })
       .catch(() => {
@@ -140,6 +142,7 @@ function Page({}: Props) {
           console.log("Something went wrong");
         })
         .finally(() => {
+          mutate(`/api/movie/${params?.id}`);
           setLiking(false);
         });
     } else {

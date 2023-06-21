@@ -13,7 +13,8 @@ export default withAuth(
     }
     if (
       req.nextUrl.pathname.startsWith("/users") &&
-      req.nextauth.token?.role !== "regular"
+      req.nextauth.token?.role !== "regular" &&
+      req.nextauth.token?.role !== "admin"
     ) {
       return NextResponse.redirect(
         new URL("/?message=Unauthorized user only regulars allowed", req.url)

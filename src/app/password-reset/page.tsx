@@ -5,6 +5,7 @@ import Input from "@/components/utilities/input/Input";
 import { passwordresetvalidator } from "@/schema/passwordreset.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
@@ -16,6 +17,7 @@ function Page({}: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const session = useSession();
 
   const {
     register,
@@ -41,6 +43,9 @@ function Page({}: Props) {
       })
       .then(() => {
         toast.success("password successfully reset, login again");
+        if (session.status === "authenticated") {
+          signOut();
+        }
         router.push("/login");
       })
       .catch(() => {

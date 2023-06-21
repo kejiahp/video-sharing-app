@@ -1,6 +1,8 @@
 import SeriesModel from "@/models/Series.model";
 import dbConnect from "@/utils/db-connect";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
   try {
     await dbConnect();

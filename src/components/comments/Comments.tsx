@@ -71,6 +71,7 @@ const Comments = ({ isLoading, movieId, error, comments }: Props) => {
           {comments.map((item, index) => (
             <CommentsItems
               key={index}
+              movieId={movieId}
               userId={item.userId._id}
               commentId={item._id}
               username={item.userId.username}

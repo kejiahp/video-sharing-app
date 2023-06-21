@@ -9,7 +9,7 @@ const Logo = () => {
         <span className="sr-only">Clever video sharing</span>
         <Image
           className="h-8 w-auto"
-          src="/Logo.jpg"
+          src="/Logo.jpeg"
           alt=""
           width={100}
           height={100}

@@ -1,8 +1,9 @@
+"use client";
 import Register from "@/components/authentication/Register";
 import Container from "@/components/utilities/container/Container";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
     <div>
       <Container>
@@ -14,4 +15,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

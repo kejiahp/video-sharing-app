@@ -1,4 +1,5 @@
-const pages = () => {
+"use client";
+const Page = () => {
   return (
     <div className="flex items-center justify-center min-h-[80vh] ">
       <h1 className="text-4xl font-semibold text-blue-500">
@@ -8,4 +9,4 @@ const pages = () => {
   );
 };
 
-export default pages;
+export default Page;

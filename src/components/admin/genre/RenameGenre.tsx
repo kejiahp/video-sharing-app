@@ -7,6 +7,7 @@ import Input from "@/components/utilities/input/Input";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { mutate } from "swr";
 
 const RenameGenre = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -51,6 +52,7 @@ const RenameGenre = () => {
       .then(() => {
         reset();
         toast.success("genre renamed successfully");
+        mutate(`/api/genre/${renameModalCtrl.data?._id}`);
         router.refresh();
         renameModalCtrl.onClose();
       })

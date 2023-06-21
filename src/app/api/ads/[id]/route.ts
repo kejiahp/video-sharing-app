@@ -4,6 +4,8 @@ import { apiupdateadvertvalidator } from "@/schema/ads.schema";
 import { SafeUser } from "@/types/SafeUser";
 import dbConnect from "@/utils/db-connect";
 
+export const dynamic = "force-dynamic";
+
 export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }

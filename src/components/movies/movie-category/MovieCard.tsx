@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "react-hot-toast";
 import slugify from "slugify";
+import { mutate } from "swr";
 
 type Props = {
   _id: string;
@@ -66,6 +67,7 @@ function MovieCard({
       .patch(`/api/movie/favourite`, { movieId: _id })
       .then(() => {
         toast.success("removed from favourites");
+        mutate(`/api/movie/favourite`);
         router.refresh();
       })
       .catch(() => {

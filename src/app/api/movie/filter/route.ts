@@ -2,6 +2,8 @@ import MovieModel from "@/models/Movie.model";
 import dbConnect from "@/utils/db-connect";
 import mongoose from "mongoose";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
   try {
     await dbConnect();
@@ -57,7 +59,7 @@ export async function GET(req: Request) {
 
     return new Response(JSON.stringify(movies), { status: 200 });
   } catch (err: any) {
-    console.log("ERROR GETTING MOVIES");
+    console.log("ERROR GETTING FILTERED MOVIES");
     return new Response("Internal Error", { status: 500 });
   }
 }

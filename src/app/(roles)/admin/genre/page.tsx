@@ -4,6 +4,8 @@ import EmptyState from "@/components/utilities/EmptyState";
 import { IGenre } from "@/models/Genre.model";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 const Page = async () => {
   const genres: (IGenre & { _id: string })[] = await getGenres();
 

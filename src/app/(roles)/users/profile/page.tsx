@@ -66,6 +66,7 @@ const Page = () => {
       }
 
       toast.success("Details Updated");
+      mutate(`/api/userdata/user-profile`);
       router.refresh();
       signOut();
     } catch (err) {
@@ -123,6 +124,7 @@ const Page = () => {
         <Input
           id={"password"}
           label={"New Password"}
+          type="password"
           disabled={false}
           required={true}
           errors={errors}

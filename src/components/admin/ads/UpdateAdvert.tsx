@@ -145,7 +145,7 @@ const UpdateAdvert = () => {
         .patch(`/api/ads/${updateAdvertCtrl.data?._id}`, newPayload)
         .then(() => {
           toast.success("advert updated");
-          mutate(`/api/ads/${updateAdvertCtrl.data?._id}`);
+          mutate(`/api/ads`);
           router.refresh();
           updateAdvertCtrl.onClose();
         })

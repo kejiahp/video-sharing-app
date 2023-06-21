@@ -8,6 +8,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { mutate } from "swr";
 
 const NewsLetterSubscription = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -34,6 +35,7 @@ const NewsLetterSubscription = () => {
       .post(`/api/newletter`, { ...data })
       .then(() => {
         toast.success("you have subscribed to our newsletter");
+        mutate(`/api/newletter`);
         reset();
         router.refresh();
       })

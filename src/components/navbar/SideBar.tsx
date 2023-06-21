@@ -3,13 +3,11 @@ import React from "react";
 import { HiXMark } from "react-icons/hi2";
 import { Dialog } from "@headlessui/react";
 import NavBarDisclosure from "./NavBarDisclosure";
-import { NavBarItemType } from "./NavBar";
 import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import UserIcon from "./UserIcon";
 import Link from "next/link";
-import Image from "next/image";
 import Logo from "./Logo";
 
 interface SideBarProps {

@@ -10,7 +10,7 @@ import { IGenre } from "@/models/Genre.model";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Video Sharing Application",
+  title: "Tyler Movies Empire",
   description: "This is a video sharing application",
 };
 

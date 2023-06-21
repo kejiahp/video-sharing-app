@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
 export async function GET(req: Request) {
   try {
     const currentUser: SafeUser = await getCurrentUser();
-    if (!currentUser || currentUser.type !== "regular") {
+    if (!currentUser || currentUser.is_verified === false) {
       return new Response("Unauthorized User", { status: 401 });
     }
     return new Response(JSON.stringify(currentUser), { status: 200 });
@@ -21,7 +21,7 @@ export async function GET(req: Request) {
 export async function PATCH(req: Request) {
   try {
     const currentUser: SafeUser = await getCurrentUser();
-    if (!currentUser || currentUser.type !== "regular") {
+    if (!currentUser || currentUser.is_verified === false) {
       return new Response("Unauthorized User", { status: 401 });
     }
 
