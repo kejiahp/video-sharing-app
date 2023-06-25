@@ -1,10 +1,28 @@
 "use client";
 import React from "react";
 import SearchBar from "./SearchBar";
+import useSWR from "swr";
+import fetcher from "@/libs/fetcher";
+import { IHeroBgImageSchema } from "@/models/HeroBgImage.model";
 
 const Hero = () => {
+  const { error, data } = useSWR<(IHeroBgImageSchema & { _id: string })[]>(
+    "/api/hero-bg-image",
+    fetcher
+  );
+
   return (
-    <div className="relative isolate px-6  lg:px-8">
+    <div
+      className="relative isolate px-6 lg:px-8"
+      style={{
+        backgroundImage: `linear-gradient(to left,rgba(0,0,0,0.5),rgba(0,0,0, 0.7)), url(${
+          data && !error ? data[0]?.image : ""
+        })`,
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
+    >
       <div
         className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
         aria-hidden="true"
@@ -17,9 +35,9 @@ const Hero = () => {
           }}
         />
       </div>
-      <div className="mx-auto max-w-2xl py-32">
+      <div className="mx-auto max-w-2xl py-40">
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="text-4xl font-bold tracking-tight text-blue-400 sm:text-6xl">
             Find Movies, TV shows and more
           </h1>
 

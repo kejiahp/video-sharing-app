@@ -10,8 +10,8 @@ const UserIcon = () => {
     <div className="rounded-full cursor-pointer border border-black border-solid">
       <Image
         src={"/no-user.png"}
-        width={30}
-        height={30}
+        width={35}
+        height={35}
         alt="User Icon"
         className="p-2"
       />

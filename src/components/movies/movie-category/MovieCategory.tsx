@@ -58,6 +58,7 @@ const MovieCategory: React.FC<MovieCategoryProps> = ({
               duration={item.duration}
               quality={item.quality}
               isSeries={item.isSeries}
+              description={item.description}
             />
           ))}
         </div>

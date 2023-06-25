@@ -8,7 +8,7 @@ const Logo = () => {
       <Link href={"/"} className="-m-1.5 p-1.5">
         <span className="sr-only">Clever video sharing</span>
         <Image
-          className="h-8 w-auto"
+          className="h-10 w-10 object-contain"
           src="/Logo.jpeg"
           alt=""
           width={100}

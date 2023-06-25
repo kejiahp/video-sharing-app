@@ -36,6 +36,7 @@ export default async function RootLayout({
           <ToasterContext />
           <ModalsContext />
           <NavBar genreAll={genreOptions} />
+          <div className="my-5"></div>
           {children}
         </AuthContext>
       </body>

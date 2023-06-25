@@ -18,6 +18,7 @@ type Props = {
   duration: number;
   quality: string;
   isSeries: string;
+  description: string;
 };
 
 export const textColorCtrl = (quality: any) => {
@@ -59,6 +60,7 @@ function MovieCard({
   duration,
   quality,
   isSeries,
+  description,
 }: Props) {
   const router = useRouter();
 
@@ -111,6 +113,12 @@ function MovieCard({
               {isSeries === "true" ? "series" : "movie"}
             </p>
           </div>
+          <p className="font-semibold text-[12px]">Description</p>
+          <p className="text-[12px] text-gray-600">
+            {description.length > 40
+              ? `${description.slice(0, 40)}...`
+              : description}
+          </p>
         </div>
       </Link>
       {isFavouritePage && (

@@ -45,7 +45,7 @@ export default function NavBar({ genreAll }: NavBarProps) {
                 onClick={() => setMobileMenuOpen(true)}
               >
                 <span className="sr-only">Open main menu</span>
-                <AiOutlineBars className="h-6 w-6" aria-hidden="true" />
+                <AiOutlineBars className="h-10 w-10" aria-hidden="true" />
               </button>
             </div>
 

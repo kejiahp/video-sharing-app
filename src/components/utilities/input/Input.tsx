@@ -16,6 +16,7 @@ interface InputProps {
   max?: number;
   step?: number;
   isIcon?: boolean;
+  accept?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -32,6 +33,7 @@ const Input: React.FC<InputProps> = ({
   step,
   register,
   icon,
+  accept,
 }) => {
   return (
     <div className="w-full relative">
@@ -45,6 +47,7 @@ const Input: React.FC<InputProps> = ({
         min={min}
         max={max}
         step={step}
+        accept={accept}
         className={`
         peer
         w-full
