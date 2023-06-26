@@ -4,6 +4,7 @@ const staticRouteArray = [
   "/movies",
   "/search",
   "/terms-and-conditions",
+  "/about-us",
 ];
 
 export default async function sitemap() {
