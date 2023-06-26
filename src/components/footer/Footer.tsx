@@ -25,9 +25,19 @@ const Footer = () => {
             <p className="uppercase text-black md:mb-6">Social</p>
             <ul className="list-reset mb-6">
               {[
-                { title: "FaceBook", link: "" },
-                { title: "Twitter", link: "" },
-                { title: "Instagram", link: "" },
+                {
+                  title: "FaceBook",
+                  link: "https://www.facebook.com/TylerMoviesEmpire",
+                },
+                {
+                  title: "Twitter",
+                  link: "https://twitter.com/TYMoviesEmpire?t=HqbXsnX8s7kYsW9L2YK0qg&s=09",
+                },
+                {
+                  title: "Instagram",
+                  link: "https://instagram.com/tylermoviesempire",
+                },
+                { title: "Telegram", link: "https://t.me/TylerMoviesEmpire01" },
               ].map((item, index) => (
                 <FooterListItems
                   title={item.title}
@@ -38,11 +48,14 @@ const Footer = () => {
             </ul>
           </div>
           <div className="flex-1">
-            <p className="uppercase text-black md:mb-6">Company</p>
+            <p className="uppercase text-black md:mb-6">Contact</p>
             <ul className="list-reset mb-6">
               {[
-                { title: "080 00002 202", link: "" },
-                { title: "test@gmail.com", link: "" },
+                { title: "+234 701 3255 852", link: "tel:+2347013255852" },
+                {
+                  title: "tylermoviesempire@gmail.com",
+                  link: "mailto:tylermoviesempire@gmail.com",
+                },
               ].map((item, index) => (
                 <FooterListItems
                   key={index}

@@ -9,6 +9,7 @@ const FooterListItems: React.FC<FooterListItemsProps> = ({ title, link }) => {
   return (
     <li className="mt-2 inline-block mr-2 md:block md:mr-0">
       <Link
+        target="_blank"
         href={link || "#"}
         className="no-underline hover:underline text-black hover:text-pink-500"
       >

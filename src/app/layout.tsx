@@ -6,12 +6,19 @@ import AuthContext from "@/context/AuthContext";
 import ModalsContext from "@/context/ModalsContext";
 import getGenres from "@/actions/getGenres";
 import { IGenre } from "@/models/Genre.model";
+import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "Tyler Movies Empire",
-  description: "This is a video sharing application",
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.SITE_BASE_URL as string),
+  title: "The Best Movie Website - Latest Movie Reviews, Trailers & News",
+  colorScheme: "light",
+  themeColor: "light",
+  keywords:
+    "movie reviews, movie trailers, movie news, upcoming movies, film industry, best movies, top movie lists, movie website",
+  description:
+    "Discover the latest movie reviews, trailers and news on the best movie website. Get insider information on upcoming movies and stay up-to-date with the latest trends in the film industry. Our movie website is the ultimate destination for movie lovers. We provide you with the latest movie reviews, trailers, and news to keep you informed about everything happening in the world of cinema.",
 };
 
 export default async function RootLayout({
