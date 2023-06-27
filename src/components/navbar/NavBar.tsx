@@ -10,6 +10,9 @@ import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import UserIcon from "./UserIcon";
 import { IGenre } from "@/models/Genre.model";
+import fetcher from "@/libs/fetcher";
+import useSWR from "swr";
+import Loader from "../loader/Loader";
 
 export type NavBarItemType = {
   name: string;
@@ -19,16 +22,27 @@ export type NavBarItemType = {
   }[];
 };
 
-interface NavBarProps {
-  genreAll: (IGenre & { _id: string })[];
-}
-
-export default function NavBar({ genreAll }: NavBarProps) {
+export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const session = useSession();
 
+  const {
+    isLoading,
+    data: genreOptions,
+    error,
+  } = useSWR(`/api/genre`, fetcher);
+
+  let genreAll: any[] = [];
+  if (genreOptions) {
+    genreAll = genreOptions?.map((item: any) => ({
+      title: item.name,
+      link: `/genre/${item.name}/${item._id}`,
+    }));
+  }
+
   return (
     <>
+      <Loader loading={isLoading} />
       <div className="bg-white">
         <header className="absolute inset-x-0 top-0 z-50">
           <nav
@@ -62,8 +76,10 @@ export default function NavBar({ genreAll }: NavBarProps) {
               >
                 Movies
               </Link>
-              {/*@ts-ignore */}
-              <NavBarPopover title={"Genre"} listings={genreAll} />
+              <NavBarPopover
+                title={"Genre"}
+                listings={!error && genreAll.length > 0 ? genreAll : []}
+              />
             </div>
 
             {session.status === "authenticated" ? (

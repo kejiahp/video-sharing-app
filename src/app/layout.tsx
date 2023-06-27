@@ -26,23 +26,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const genreAll: (IGenre & { _id: string })[] = await getGenres();
-
-  let genreOptions: any[] = [];
-  if (genreAll) {
-    genreOptions = genreAll?.map((item) => ({
-      title: item.name,
-      link: `/genre/${item.name}/${item._id}`,
-    }));
-  }
-
   return (
     <html lang="en">
       <body className={inter.className}>
         <AuthContext>
           <ToasterContext />
           <ModalsContext />
-          <NavBar genreAll={genreOptions} />
+          <NavBar />
           <div className="my-5"></div>
           {children}
         </AuthContext>
