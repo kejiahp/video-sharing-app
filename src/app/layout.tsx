@@ -11,7 +11,7 @@ import { Metadata } from "next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.SITE_BASE_URL as string),
+  metadataBase: new URL("https://tylermoviesempire.com"),
   title: "The Best Movie Website - Latest Movie Reviews, Trailers & News",
   colorScheme: "light",
   themeColor: "light",
