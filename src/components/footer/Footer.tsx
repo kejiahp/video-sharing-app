@@ -12,6 +12,7 @@ const Footer = () => {
             <ul className="list-reset mb-6">
               {[
                 { title: "Terms & Conditions", link: "/terms-and-conditions" },
+                { title: "About Us", link: "/about-us" },
               ].map((item, index) => (
                 <FooterListItems
                   key={index}
@@ -69,7 +70,7 @@ const Footer = () => {
       </div>
       <section className="flex justify-center items-center">
         <p className="text-white text-sm">
-          © Clever Video Sharing - {new Date().getFullYear()}
+          Tyler Movies Empire © {new Date().getFullYear()}
         </p>
       </section>
     </footer>

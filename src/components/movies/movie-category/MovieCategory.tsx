@@ -34,8 +34,12 @@ const MovieCategory: React.FC<MovieCategoryProps> = ({
   if (!movies || error || movies.length <= 0) {
     return (
       <EmptyState
-        header="No movies here"
-        subHeader="There seems to be no movies here 😟"
+        header={header || "No movies here"}
+        subHeader={
+          header
+            ? `There seems to be no ${header.toLowerCase()} movies here 😟`
+            : "There seems to be no movies here 😟"
+        }
       />
     );
   }

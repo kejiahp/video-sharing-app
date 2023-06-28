@@ -30,7 +30,7 @@ function Page({}: Props) {
           isLoading={isLoading}
           error={error}
           movies={data?.slice(0, 18) || []}
-          header={`Genre "${params?.name.replace("-", " ")}"`}
+          header={`Genre "${decodeURI(params?.name).replace("-", " ")}"`}
         />
       </div>
 

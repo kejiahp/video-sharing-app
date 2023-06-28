@@ -1,3 +1,6 @@
+"use client";
+import Footer from "@/components/footer/Footer";
+import NewsLetterSubscription from "@/components/newslettersubscription/NewsLetterSubscription";
 import Container from "@/components/utilities/container/Container";
 import React from "react";
 
@@ -6,10 +9,12 @@ function Page() {
     <div className="my-16">
       <Container>
         <h1 className="text-4xl text-blue-500 my-6">ABOUT US</h1>
-        <p>
-          Our movie website is the ultimate destination for movie lovers. We
-          provide you with the latest movie reviews, trailers, and news to keep
-          you informed about everything happening in the world of cinema.
+        <div className="flex flex-col gap-6 text-lg min-h-[70vh]">
+          <p>
+            Our movie website is the ultimate destination for movie lovers. We
+            provide you with the latest movie reviews, trailers, and news to
+            keep you informed about everything happening in the world of cinema.
+          </p>
           <p>
             Our team of expert movie critics provides insightful and honest
             reviews that help you decide which movies are worth your time and
@@ -34,8 +39,10 @@ function Page() {
             we&apos;re dedicated to providing our readers with the best possible
             movie-related content. Visit us today and join the conversation!
           </p>
-        </p>
+        </div>
       </Container>
+      <NewsLetterSubscription />
+      <Footer />
     </div>
   );
 }

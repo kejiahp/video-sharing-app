@@ -92,7 +92,7 @@ export default function Home({
         isLoading={comingSoonLoading}
         error={comingSoonError}
         movies={comingSoonData}
-        header="Comming Soon"
+        header="Coming Soon"
       />
 
       {adsData && adsData[3] ? (

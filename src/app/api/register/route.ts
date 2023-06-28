@@ -41,6 +41,7 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify(user), { status: 201 });
   } catch (err: any) {
     console.log("registration failed");
+    console.log(err);
     return new Response("Internal Error", { status: 500 });
   }
 }
