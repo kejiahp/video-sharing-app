@@ -63,6 +63,17 @@ const Register = () => {
         required
         errors={errors}
       />
+      <div className="flex flex-row flex-wrap gap-3 text-gray-500 font-semibold text-xs sm:text-sm">
+        <small>username can only have:</small>
+        {"|"}
+        <small>Lowercase Letters (a-z)</small>
+        {"|"}
+        <small>Numbers (0-9)</small>
+        {"|"}
+        <small>Dots (.)</small>
+        {"|"}
+        <small>Underscores (_)</small>
+      </div>
 
       <Input
         id="email"

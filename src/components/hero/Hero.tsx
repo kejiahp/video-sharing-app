@@ -37,8 +37,8 @@ const Hero = () => {
       </div>
       <div className="mx-auto max-w-2xl py-40">
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-blue-400 sm:text-6xl">
-            Find Movies, TV shows and more
+          <h1 className="text-4xl font-bold tracking-tight text-white mb-5 sm:text-6xl">
+            Tyler Movies Empire.
           </h1>
 
           <SearchBar />

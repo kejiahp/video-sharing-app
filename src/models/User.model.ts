@@ -26,10 +26,7 @@ const UserSchema = new mongoose.Schema<IUser>(
     username: {
       type: String,
       unique: true,
-      match: [
-        /^(?=.{3,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
-        "Username invalid, it should contain 2-20 alphanumeric letters and be unique!",
-      ],
+      match: [/^[a-z0-9_\.]+$/, "invalid username"],
       required: [true, "username is required"],
     },
     email: {

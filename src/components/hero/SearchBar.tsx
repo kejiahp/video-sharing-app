@@ -31,7 +31,7 @@ const SearchBar = () => {
     <form onSubmit={handleSubmit(onSubmitHandler)} className="mt-5">
       <Input
         id="keywords"
-        label="Enter Keywords"
+        label="Enter Movie, Series or Show Name"
         isIcon={true}
         register={register}
         disabled={false}
@@ -39,6 +39,9 @@ const SearchBar = () => {
         errors={errors}
         icon={<BsSearch className="text-neutral-700 absolute left-2 top-5" />}
       />
+      <h1 className="text-sm font-extrabold text-white my-2">
+        Find Movies, TV shows and more
+      </h1>
 
       <div className="mt-10 flex items-center justify-center gap-x-6">
         <Button sec>Search</Button>
