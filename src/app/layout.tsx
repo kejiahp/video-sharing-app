@@ -4,9 +4,9 @@ import { Inter } from "next/font/google";
 import ToasterContext from "@/context/ToasterContext";
 import AuthContext from "@/context/AuthContext";
 import ModalsContext from "@/context/ModalsContext";
-import getGenres from "@/actions/getGenres";
-import { IGenre } from "@/models/Genre.model";
 import { Metadata } from "next";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import CookieBanner from "@/components/cookiebanner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +28,11 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
+      <GoogleAnalytics
+        GA_MEASUREMENT_ID={
+          process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID as string
+        }
+      />
       <body className={inter.className}>
         <AuthContext>
           <ToasterContext />
@@ -36,6 +41,7 @@ export default async function RootLayout({
           <div className="my-5"></div>
           {children}
         </AuthContext>
+        <CookieBanner />
       </body>
     </html>
   );
