@@ -9,7 +9,7 @@ function Page({}: Props) {
       <div className="my-16">
         <Container>
           <h1 className="text-4xl text-blue-500 my-6">
-            Digital Millennium Copyright Act ("DMCA")
+            Digital Millennium Copyright Act (DMCA)
           </h1>
           <p className="my-5">
             Tyler Movies Empire is in compliance with the Digital Millennium
