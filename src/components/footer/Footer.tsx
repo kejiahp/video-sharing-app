@@ -11,6 +11,7 @@ const Footer = () => {
             <p className="uppercase text-black md:mb-6">Legal</p>
             <ul className="list-reset mb-6">
               {[
+                { title: "Advertise with Us", link: "/advertise-with-us" },
                 { title: "Terms & Conditions", link: "/terms-and-conditions" },
                 { title: "About Us", link: "/about-us" },
                 {

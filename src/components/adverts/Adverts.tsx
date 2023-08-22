@@ -24,12 +24,8 @@ function Adverts({ isLoading, error, advert }: Props) {
 
   return (
     <div className="w-full h-[200px] flex justify-center items-center flex-col">
-      <PublicAdvertItem
-        link={advert.link}
-        image={advert.image}
-        text={advert.text}
-      />
-      <small className="font-bold">advertisment</small>
+      <PublicAdvertItem link={advert.link} image={advert.image} text={""} />
+      <small className="font-bold">{advert.text}</small>
     </div>
   );
 }

@@ -57,12 +57,22 @@ const SideBar: React.FC<SideBarProps> = ({
                 Series
               </Link>
             </div>
+
             <div>
               <Link
                 href={"/movies"}
                 className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
               >
                 Movies
+              </Link>
+            </div>
+
+            <div>
+              <Link
+                href={"/advertise-with-us"}
+                className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+              >
+                Advertise with Us
               </Link>
             </div>
 

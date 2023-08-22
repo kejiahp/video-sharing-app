@@ -14,7 +14,7 @@ function PublicAdvertItem({ link, image, text }: Props) {
     >
       <img src={image} className="max-w-xs" alt={text} />
       <div className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden opacity-0 transition duration-700 ease-in-out bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:opacity-100 flex justify-center items-center">
-        <p className="text-white font-semibold">{text}</p>
+        <p className="text-white font-semibold">advertisment</p>
       </div>
     </div>
   );

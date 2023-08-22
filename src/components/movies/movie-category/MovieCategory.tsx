@@ -4,6 +4,8 @@ import React from "react";
 import MovieCard from "./MovieCard";
 import EmptyState from "@/components/utilities/EmptyState";
 import Container from "@/components/utilities/container/Container";
+import Button from "@/components/utilities/button/Button";
+import { useRouter } from "next/navigation";
 
 interface MovieCategoryProps {
   header: string;
@@ -22,6 +24,16 @@ const MovieCategory: React.FC<MovieCategoryProps> = ({
   error,
   isFavouritePage,
 }) => {
+  const router = useRouter();
+
+  const toWhere = (header: string) => {
+    if (header.toLowerCase().match(/series/gi)) {
+      return router.push("/series");
+    } else {
+      return router.push("/movies");
+    }
+  };
+
   if (isLoading) {
     return (
       <EmptyState
@@ -46,9 +58,17 @@ const MovieCategory: React.FC<MovieCategoryProps> = ({
   return (
     <div className="my-10">
       <Container>
-        <div>
-          <h1 className="text-3xl text-blue-500 my-5">{header}</h1>
-          <p className="text-gray-500">{subheader}</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl text-blue-500 my-5">{header}</h1>
+            <p className="text-gray-500">{subheader}</p>
+          </div>
+
+          <div className="">
+            <Button sec isSmall onClick={() => toWhere(header)}>
+              See More
+            </Button>
+          </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {movies.map((item, index) => (

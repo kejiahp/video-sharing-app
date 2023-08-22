@@ -43,8 +43,8 @@ export default function NavBar() {
   return (
     <>
       <Loader loading={isLoading} />
-      <div className="bg-white">
-        <header className="absolute inset-x-0 top-0 z-50">
+      <div className="fixed top-0 left-0 w-[100%] z-50 ">
+        <header className="bg-white absolute inset-x-0 top-0 z-50 shadow-sm shadow-blue-300">
           <nav
             className="flex items-center justify-between p-6 lg:px-8"
             aria-label="Global"
@@ -70,16 +70,25 @@ export default function NavBar() {
               >
                 Series
               </Link>
+
               <Link
                 href={"/movies"}
                 className="font-semibold leading-6 text-gray-900 mr-12"
               >
                 Movies
               </Link>
+
               <NavBarPopover
                 title={"Genre"}
                 listings={!error && genreAll.length > 0 ? genreAll : []}
               />
+
+              <Link
+                href={"/advertise-with-us"}
+                className="font-semibold leading-6 text-gray-900 mr-12"
+              >
+                Advertise with us
+              </Link>
             </div>
 
             {session.status === "authenticated" ? (
