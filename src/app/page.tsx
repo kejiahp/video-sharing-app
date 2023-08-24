@@ -8,6 +8,7 @@ import useSWR from "swr";
 import fetcher from "@/libs/fetcher";
 import Adverts from "@/components/adverts/Adverts";
 import { IAds } from "@/models/Ads.model";
+import { usePathname } from "next/navigation";
 
 export default function Home({
   searchParams,
@@ -28,6 +29,9 @@ export default function Home({
     `/api/movie/filter?limit=18`,
     fetcher
   );
+
+  const pathname = usePathname();
+  console.log(pathname);
 
   const {
     isLoading: trendingLoading,
@@ -61,6 +65,7 @@ export default function Home({
         error={trendingError}
         movies={trendingData}
         header="Trending"
+        seeMorePath="/movies"
       />
       {adsData && adsData[0] ? (
         <Adverts isLoading={adsLoading} error={adsError} advert={adsData[0]} />
@@ -71,6 +76,7 @@ export default function Home({
         error={error}
         movies={data}
         header="New Releases"
+        seeMorePath="/movies"
       />
 
       {adsData && adsData[1] ? (
@@ -82,6 +88,7 @@ export default function Home({
         error={seriesError}
         movies={seriesData}
         header="Latest Series"
+        seeMorePath="/series"
       />
 
       {adsData && adsData[2] ? (

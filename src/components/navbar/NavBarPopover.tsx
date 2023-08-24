@@ -15,7 +15,7 @@ const NavBarPopover: React.FC<NavBarPopoverProps> = ({
   isVertical,
 }) => {
   return (
-    <Popover className="relative">
+    <Popover className="relative mr-12">
       {({ open }) => (
         <>
           <Popover.Button

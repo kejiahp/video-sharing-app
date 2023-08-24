@@ -6,7 +6,8 @@ import dbConnect from "@/utils/db-connect";
 export async function GET(req: Request) {
   try {
     const currentUser: SafeUser = await getCurrentUser();
-    if (!currentUser || currentUser.type !== "admin") {
+    const isAdmin = ["super-admin", "admin"].includes(currentUser?.type);
+    if (!currentUser || !isAdmin) {
       return new Response("Unauthorized User", { status: 401 });
     }
     await dbConnect();
@@ -27,7 +28,7 @@ export async function GET(req: Request) {
 export async function PATCH(req: Request) {
   try {
     const currentUser: SafeUser = await getCurrentUser();
-    if (!currentUser || currentUser.type !== "admin") {
+    if (!currentUser || currentUser.type !== "super-admin") {
       return new Response("Unauthorized User", { status: 401 });
     }
     await dbConnect();

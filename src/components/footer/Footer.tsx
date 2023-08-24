@@ -13,6 +13,10 @@ const Footer = () => {
               {[
                 { title: "Advertise with Us", link: "/advertise-with-us" },
                 { title: "Terms & Conditions", link: "/terms-and-conditions" },
+                {
+                  title: "Advertisment Terms & Conditions",
+                  link: "/advertisement-terms-and-conditions",
+                },
                 { title: "About Us", link: "/about-us" },
                 {
                   title: "Digital Millennium Copyright Act (DMCA)",

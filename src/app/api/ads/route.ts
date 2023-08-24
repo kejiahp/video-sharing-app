@@ -9,7 +9,8 @@ export const dynamic = "force-dynamic";
 export async function POST(req: Request) {
   try {
     const currentUser: SafeUser = await getCurrentUser();
-    if (!currentUser || currentUser.type !== "admin") {
+    const isAdmin = ["super-admin", "admin"].includes(currentUser?.type);
+    if (!currentUser || !isAdmin) {
       return new Response("Unauthorized User", { status: 401 });
     }
 

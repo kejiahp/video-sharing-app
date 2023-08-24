@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export interface IAds {
   text: string;
   image: string;
+  advertType: string;
   link: string;
   page: string;
   createdAt: Date;
@@ -20,6 +21,15 @@ const AdsSchema = new mongoose.Schema<IAds>(
     image: {
       type: String,
       required: [true, "image is required"],
+    },
+    advertType: {
+      type: String,
+      default: "normal",
+      required: false,
+      enum: {
+        values: ["normal", "banner"],
+        message: "{VALUE} is not supported",
+      },
     },
     link: {
       type: String,

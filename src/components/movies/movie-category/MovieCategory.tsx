@@ -14,6 +14,7 @@ interface MovieCategoryProps {
   error?: any;
   movies: (IMovie & { _id: string })[];
   isFavouritePage?: boolean;
+  seeMorePath?: string;
 }
 
 const MovieCategory: React.FC<MovieCategoryProps> = ({
@@ -23,16 +24,18 @@ const MovieCategory: React.FC<MovieCategoryProps> = ({
   isLoading,
   error,
   isFavouritePage,
+  seeMorePath,
 }) => {
   const router = useRouter();
 
-  const toWhere = (header: string) => {
-    if (header.toLowerCase().match(/series/gi)) {
-      return router.push("/series");
-    } else {
-      return router.push("/movies");
-    }
-  };
+  // const pathname = usePathname();
+  // const toWhere = (header: string) => {
+  //   if (header.toLowerCase().match(/series/gi)) {
+  //     return router.push("/series");
+  //   } else {
+  //     return router.push("/movies");
+  //   }
+  // };
 
   if (isLoading) {
     return (
@@ -58,17 +61,9 @@ const MovieCategory: React.FC<MovieCategoryProps> = ({
   return (
     <div className="my-10">
       <Container>
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl text-blue-500 my-5">{header}</h1>
-            <p className="text-gray-500">{subheader}</p>
-          </div>
-
-          <div className="">
-            <Button sec isSmall onClick={() => toWhere(header)}>
-              See More
-            </Button>
-          </div>
+        <div>
+          <h1 className="text-3xl text-blue-500 my-5">{header}</h1>
+          <p className="text-gray-500">{subheader}</p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {movies.map((item, index) => (
@@ -85,6 +80,16 @@ const MovieCategory: React.FC<MovieCategoryProps> = ({
               description={item.description}
             />
           ))}
+        </div>
+
+        <div className="flex my-4 justify-center items-center">
+          {seeMorePath ? (
+            <div>
+              <Button sec isSmall onClick={() => router.push(seeMorePath)}>
+                See More
+              </Button>
+            </div>
+          ) : null}
         </div>
       </Container>
     </div>

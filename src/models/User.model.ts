@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema<IUser>(
       type: String,
       default: "regular",
       enum: {
-        values: ["regular", "admin"],
+        values: ["regular", "admin", "super-admin"],
         message: "{VALUE} is not supported",
       },
     },

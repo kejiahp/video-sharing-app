@@ -91,6 +91,20 @@ const UpdateAdvert = () => {
           register={register}
         />
 
+        <SelectInput
+          id={"advertType"}
+          label={"Advert Type"}
+          disabled={false}
+          required={true}
+          errors={errors}
+          options={[
+            { label: "normal", value: "normal" },
+            { label: "banner", value: "banner" },
+          ]}
+          defaultValue={"normal"}
+          register={register}
+        />
+
         <Input
           id={"link"}
           label={"Link"}

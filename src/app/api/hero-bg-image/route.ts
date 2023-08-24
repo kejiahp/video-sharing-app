@@ -20,7 +20,8 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const currentUser: SafeUser = await getCurrentUser();
-    if (!currentUser || currentUser.type !== "admin") {
+    const isAdmin = ["super-admin", "admin"].includes(currentUser?.type);
+    if (!currentUser || !isAdmin) {
       return new Response("Unauthorized User", { status: 404 });
     }
     const heroImage = await HeroBgImageModel.count();
@@ -54,7 +55,8 @@ export async function POST(req: Request) {
 export async function PATCH(req: Request) {
   try {
     const currentUser: SafeUser = await getCurrentUser();
-    if (!currentUser || currentUser.type !== "admin") {
+    const isAdmin = ["super-admin", "admin"].includes(currentUser?.type);
+    if (!currentUser || !isAdmin) {
       return new Response("Unauthorized User", { status: 404 });
     }
 
