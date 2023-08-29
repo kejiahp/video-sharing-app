@@ -30,6 +30,9 @@ export async function generateMetadata(
   return {
     title: movie.name,
     description: movie.description,
+    twitter: {
+      images: [movieImage, ...previousImages],
+    },
     openGraph: {
       images: [movieImage, ...previousImages],
     },
