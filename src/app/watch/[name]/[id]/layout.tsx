@@ -22,8 +22,8 @@ export async function generateMetadata(
     res.json()
   );
 
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
+  // // optionally access and extend (rather than replace) parent metadata
+  // const previousImages = (await parent).openGraph?.images || [];
 
   const movieImage = movie.mainImg;
 
@@ -31,10 +31,10 @@ export async function generateMetadata(
     title: movie.name,
     description: movie.description,
     twitter: {
-      images: [movieImage, ...previousImages],
+      images: [movieImage],
     },
     openGraph: {
-      images: [movieImage, ...previousImages],
+      images: [movieImage],
     },
   };
 }
