@@ -22,26 +22,26 @@ export async function generateMetadata(
     res.json()
   );
 
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || [];
-
   const movieImage = movie.mainImg;
 
   return {
     title: movie.name,
     description: movie.description,
     twitter: {
-      images: [movieImage, ...previousImages],
+      card: "summary_large_image",
+      title: movie.name,
+      description: movie.description,
+      images: [movieImage],
     },
     openGraph: {
       title: movie.name,
       description: movie.description,
       siteName: "TylerMoviesEmpire",
-      images: [
-        {
-          url: movieImage,
-        },
-      ],
+      images: {
+        width: "900",
+        height: "600",
+        url: movieImage,
+      },
     },
   };
 }
