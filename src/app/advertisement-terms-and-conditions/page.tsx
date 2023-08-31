@@ -2,11 +2,21 @@ import Footer from "@/components/footer/Footer";
 import NewsLetterSubscription from "@/components/newslettersubscription/NewsLetterSubscription";
 import Container from "@/components/utilities/container/Container";
 import { advertguidelineAndTerms } from "@/constants/adverst.constants";
+import { Metadata } from "next";
 import React from "react";
 
-type Props = {};
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_BASE_URL as string;
 
-function Page({}: Props) {
+export const metadata: Metadata = {
+  title: " Advertising Guidelines and Terms & Conditions",
+  description:
+    "By advertising on Tyler Movies Empire, you agree to abide by these Advertising Guidelines and Terms & Conditions. For inquiries or to discuss your advertising needs, please contact our advertising team",
+  alternates: {
+    canonical: `${BASE_URL}/advertisement-terms-and-conditions`,
+  },
+};
+
+function Page() {
   return (
     <>
       <div className="my-16">

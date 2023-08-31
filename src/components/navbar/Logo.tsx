@@ -6,7 +6,7 @@ const Logo = () => {
   return (
     <>
       <Link href={"/"} className="-m-1.5 p-1.5">
-        <span className="sr-only">Clever video sharing</span>
+        <span className="sr-only">Tyler Movies Empire</span>
         <Image
           className="h-10 w-10 object-contain"
           src="/Logo.jpeg"

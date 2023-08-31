@@ -9,7 +9,6 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import UserIcon from "./UserIcon";
-import { IGenre } from "@/models/Genre.model";
 import fetcher from "@/libs/fetcher";
 import useSWR from "swr";
 import Loader from "../loader/Loader";

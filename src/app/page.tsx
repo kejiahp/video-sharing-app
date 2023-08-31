@@ -8,7 +8,6 @@ import useSWR from "swr";
 import fetcher from "@/libs/fetcher";
 import Adverts from "@/components/adverts/Adverts";
 import { IAds } from "@/models/Ads.model";
-import { usePathname } from "next/navigation";
 
 export default function Home({
   searchParams,
@@ -29,9 +28,6 @@ export default function Home({
     `/api/movie/filter?limit=18`,
     fetcher
   );
-
-  const pathname = usePathname();
-  console.log(pathname);
 
   const {
     isLoading: trendingLoading,

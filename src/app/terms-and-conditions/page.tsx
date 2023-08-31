@@ -1,7 +1,19 @@
 import Footer from "@/components/footer/Footer";
 import NewsLetterSubscription from "@/components/newslettersubscription/NewsLetterSubscription";
 import Container from "@/components/utilities/container/Container";
+import { Metadata } from "next";
 import React from "react";
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_BASE_URL as string;
+
+export const metadata: Metadata = {
+  title: "Terms and Conditions",
+  description:
+    "These terms and conditions ('Terms') govern the use of our movie website ('Website') and the services provided through the Website. By accessing or using our Website, you agree to be bound by these Terms. If you do not agree with any part of these Terms, you should not use our Website.",
+  alternates: {
+    canonical: `${BASE_URL}/terms-and-conditions`,
+  },
+};
 
 function page() {
   return (

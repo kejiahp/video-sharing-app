@@ -30,7 +30,7 @@ import { IComment } from "@/models/Comments.model";
 type Props = {};
 
 function Page({}: Props) {
-  const params = useParams();
+  const params: any = useParams();
   const session = useSession();
   const router = useRouter();
   const [liking, setLiking] = useState<boolean>(false);

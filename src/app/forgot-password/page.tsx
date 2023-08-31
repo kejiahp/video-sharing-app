@@ -7,9 +7,7 @@ import React, { useState } from "react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-type Props = {};
-
-function Page({}: Props) {
+function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {

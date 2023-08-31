@@ -8,9 +8,7 @@ import { useSearchParams } from "next/navigation";
 import React from "react";
 import useSWR from "swr";
 
-type Props = {};
-
-const Page = (props: Props) => {
+const Page = () => {
   const searchParams = useSearchParams();
   const name = searchParams.get("q");
   const encodedURI = encodeURI(name || "");

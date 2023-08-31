@@ -7,6 +7,7 @@ import ModalsContext from "@/context/ModalsContext";
 import { Metadata } from "next";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import CookieBanner from "@/components/cookiebanner";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,11 +29,20 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <GoogleAnalytics
-        GA_MEASUREMENT_ID={
-          process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID as string
+      <Suspense
+        fallback={
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-zinc-900" />
+          </div>
         }
-      />
+      >
+        <GoogleAnalytics
+          GA_MEASUREMENT_ID={
+            process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID as string
+          }
+        />
+      </Suspense>
+
       <body className={inter.className}>
         <AuthContext>
           <ToasterContext />
@@ -41,7 +51,16 @@ export default async function RootLayout({
           <div className="my-5"></div>
           {children}
         </AuthContext>
-        <CookieBanner />
+
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 z-50 flex items-center justify-center">
+              <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-zinc-900" />
+            </div>
+          }
+        >
+          <CookieBanner />
+        </Suspense>
       </body>
     </html>
   );

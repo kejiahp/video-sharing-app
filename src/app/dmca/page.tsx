@@ -1,9 +1,19 @@
 import Container from "@/components/utilities/container/Container";
+import { Metadata } from "next";
 import React from "react";
 
-type Props = {};
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_BASE_URL as string;
 
-function Page({}: Props) {
+export const metadata: Metadata = {
+  title: " Advertising Guidelines and Terms & Conditions",
+  description:
+    "Tyler Movies Empire is in compliance with the Digital Millennium Copyright Act (“DMCA”). It is our policy to respond to any infringement notices and take appropriate actions under the Digital Millennium Copyright Act (“DMCA”) and other applicable intellectual property laws.",
+  alternates: {
+    canonical: `${BASE_URL}/dmca`,
+  },
+};
+
+function Page() {
   return (
     <>
       <div className="my-16">

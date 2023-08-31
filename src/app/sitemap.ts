@@ -5,6 +5,9 @@ const staticRouteArray = [
   "/search",
   "/terms-and-conditions",
   "/about-us",
+  "/advertise-with-us",
+  "/advertisement-terms-and-conditions",
+  "/dmca",
 ];
 
 export default async function sitemap() {

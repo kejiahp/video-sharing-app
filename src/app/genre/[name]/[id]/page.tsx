@@ -8,10 +8,8 @@ import MovieCategory from "@/components/movies/movie-category/MovieCategory";
 import { useParams } from "next/navigation";
 import Adverts from "@/components/adverts/Adverts";
 
-type Props = {};
-
-function Page({}: Props) {
-  const params = useParams();
+function Page() {
+  const params: any = useParams();
   const { isLoading, error, data } = useSWR(
     `/api/movie/filter?genre=${params?.id || ""}`,
     fetcher
