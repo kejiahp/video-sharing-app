@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import CookieBanner from "@/components/cookiebanner";
 import { Suspense } from "react";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -61,6 +62,11 @@ export default async function RootLayout({
         >
           <CookieBanner />
         </Suspense>
+
+        <Script
+          type="text/javascript"
+          src="//pl20492048.highcpmrevenuegate.com/d2/08/2e/d2082e7cd9951d937343ab58e5131015.js"
+        ></Script>
       </body>
     </html>
   );

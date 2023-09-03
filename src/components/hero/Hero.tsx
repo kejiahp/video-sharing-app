@@ -41,6 +41,14 @@ const Hero = () => {
             Tyler Movies Empire.
           </h1>
 
+          <p className="text-sm  text-white my-2">
+            Your one-stop-shop for all the latest movie news, reviews, trailers,
+            and more. With our expertly curated content and user-friendly
+            interface, you&apos;ll never miss a beat in the world of cinema.
+            Visit us today and discover why we&apos;re the go-to destination for
+            movie lovers everywhere.
+          </p>
+
           <SearchBar />
         </div>
       </div>
