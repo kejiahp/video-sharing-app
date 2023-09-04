@@ -67,6 +67,11 @@ export default async function RootLayout({
           type="text/javascript"
           src="//pl20492048.highcpmrevenuegate.com/d2/08/2e/d2082e7cd9951d937343ab58e5131015.js"
         ></Script>
+
+        <Script
+          type="text/javascript"
+          src="//pl20515507.highcpmrevenuegate.com/ae/07/02/ae07029fca94f797d3f41491d7f88815.js"
+        ></Script>
       </body>
     </html>
   );
