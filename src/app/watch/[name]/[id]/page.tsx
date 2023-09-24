@@ -113,13 +113,12 @@ function Page({}: Props) {
     axios
       .patch(`/api/movie/view-count/${params?.id}`)
       .then(() => {
-        // window.location.href = downLoadLink;
         mutate(`/api/movie/${params?.id}`);
-        router.push(downLoadLink);
+        window.open(downLoadLink, "_blank");
       })
       .catch(() => {
         console.log("Something went wrong");
-        router.push(downLoadLink);
+        window.open(downLoadLink, "_blank");
       });
   };
 
