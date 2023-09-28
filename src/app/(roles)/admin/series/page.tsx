@@ -1,20 +1,26 @@
 "use client";
+
+import Pagination from "@/components/Pagination/Pagination";
 import SeriesItem from "@/components/admin/series/SeriesItem";
 import Loader from "@/components/loader/Loader";
 import EmptyState from "@/components/utilities/EmptyState";
 import fetcher from "@/libs/fetcher";
 import { ISeries } from "@/models/Series.model";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 
 const Page = () => {
-  const { isLoading, error, data } = useSWR<
-    (Omit<ISeries, "createdAt" | "movieId"> & {
+  const [page, setPage] = useState(0);
+
+  const { isLoading, error, data } = useSWR<{
+    pageCount: number;
+    count: number;
+    series: (Omit<ISeries, "createdAt" | "movieId"> & {
       _id: string;
       movieId: string;
       createdAt: string;
-    })[]
-  >("/api/series", fetcher);
+    })[];
+  }>(`/api/series?p=${page}`, fetcher);
 
   if (isLoading) {
     return <Loader loading={true} />;
@@ -24,7 +30,7 @@ const Page = () => {
     throw new Error("can't fetch series");
   }
 
-  if (!data || data.length <= 0) {
+  if (!data || data.series.length <= 0) {
     return (
       <EmptyState
         header="Oh...no Series found 😟"
@@ -36,7 +42,7 @@ const Page = () => {
   return (
     <>
       <div>
-        {data?.map((item, index) => (
+        {data?.series?.map((item, index) => (
           <SeriesItem
             key={index}
             _id={item._id}
@@ -47,6 +53,12 @@ const Page = () => {
           />
         ))}
       </div>
+
+      <Pagination
+        pages={data?.pageCount}
+        currentPage={page}
+        setCurrentPage={setPage}
+      />
     </>
   );
 };

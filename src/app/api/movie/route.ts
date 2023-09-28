@@ -5,7 +5,7 @@ import { apimoviecreationschema } from "@/schema/movie.schema";
 import { SafeUser } from "@/types/SafeUser";
 import dbConnect from "@/utils/db-connect";
 
-export const dynamic = "force-dynamic";
+// export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
   try {
@@ -57,6 +57,13 @@ export async function GET(req: Request) {
     const newURL = new URL(req.url);
     const searchName = newURL.searchParams.get("q");
 
+    const page = Number(newURL.searchParams.get("p")) || 0;
+    const moviesPerPage = 12;
+    const skip = page * moviesPerPage;
+
+    const count = await MovieModel.estimatedDocumentCount();
+    const pageCount = Math.ceil(count / moviesPerPage);
+
     let query: any = {};
 
     if (searchName) {
@@ -66,13 +73,18 @@ export async function GET(req: Request) {
       };
     }
 
-    const movies = await MovieModel.find({ ...query }).sort({
-      createdAt: "descending",
-    });
+    const movies = await MovieModel.find({ ...query })
+      .sort({
+        createdAt: "descending",
+      })
+      .skip(skip)
+      .limit(moviesPerPage);
 
     if (!movies) return new Response(JSON.stringify([]), { status: 200 });
 
-    return new Response(JSON.stringify(movies), { status: 200 });
+    return new Response(JSON.stringify({ count, pageCount, movies }), {
+      status: 200,
+    });
   } catch (err: any) {
     console.log("ERROR GETTING MOVIES");
     return new Response("Internal Error", { status: 500 });

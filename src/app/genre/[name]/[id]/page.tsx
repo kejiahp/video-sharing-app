@@ -1,17 +1,21 @@
 "use client";
+
 import Footer from "@/components/footer/Footer";
 import NewsLetterSubscription from "@/components/newslettersubscription/NewsLetterSubscription";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import fetcher from "@/libs/fetcher";
 import MovieCategory from "@/components/movies/movie-category/MovieCategory";
 import { useParams } from "next/navigation";
 import Adverts from "@/components/adverts/Adverts";
+import Pagination from "@/components/Pagination/Pagination";
 
 function Page() {
+  const [page, setPage] = useState(0);
+
   const params: any = useParams();
   const { isLoading, error, data } = useSWR(
-    `/api/movie/filter?genre=${params?.id || ""}`,
+    `/api/movie/filter?limit=24&p=${page}&genre=${params?.id || ""}`,
     fetcher
   );
 
@@ -27,7 +31,7 @@ function Page() {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data?.slice(0, 18) || []}
+          movies={data?.movies?.slice(0, 6) || []}
           header={`Genre "${decodeURI(params?.name).replace("-", " ")}"`}
         />
       </div>
@@ -40,7 +44,7 @@ function Page() {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data?.slice(18, 36) || []}
+          movies={data?.movies?.slice(6, 12) || []}
           header={`Genre "${params?.name.replace("-", " ")}"`}
         />
       </div>
@@ -53,7 +57,7 @@ function Page() {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data?.slice(36, 54) || []}
+          movies={data?.movies?.slice(12, 18) || []}
           header={`Genre "${params?.name.replace("-", " ")}"`}
         />
       </div>
@@ -66,10 +70,16 @@ function Page() {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data?.slice(54) || []}
+          movies={data?.movies?.slice(18) || []}
           header={`Genre "${params?.name.replace("-", " ")}"`}
         />
       </div>
+
+      <Pagination
+        pages={data?.pageCount}
+        currentPage={page}
+        setCurrentPage={setPage}
+      />
 
       {adsData && adsData[3] ? (
         <Adverts isLoading={adsLoading} error={adsError} advert={adsData[3]} />

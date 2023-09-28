@@ -27,9 +27,7 @@ import axios from "axios";
 import Comments from "@/components/comments/Comments";
 import { IComment } from "@/models/Comments.model";
 
-type Props = {};
-
-function Page({}: Props) {
+function Page() {
   const params: any = useParams();
   const session = useSession();
   const router = useRouter();
@@ -192,18 +190,32 @@ function Page({}: Props) {
 
             <div className="">
               <div className="flex items-center gap-1 sm:gap-7">
-                {data.availability !== "available" || !data.downloadLink ? (
-                  <Button isSmall sec>
-                    Coming Soon
-                  </Button>
+                {data.isSeries === "true" ? (
+                  <>
+                    {data.availability !== "available" ? (
+                      <Button isSmall sec>
+                        Coming Soon
+                      </Button>
+                    ) : null}
+                  </>
                 ) : (
-                  <Button
-                    onClick={() => increaseViewCountHandler(data.downloadLink)}
-                    isSmall
-                    sec
-                  >
-                    Download
-                  </Button>
+                  <>
+                    {data.availability !== "available" || !data.downloadLink ? (
+                      <Button isSmall sec>
+                        Coming Soon
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() =>
+                          increaseViewCountHandler(data.downloadLink)
+                        }
+                        isSmall
+                        sec
+                      >
+                        Download
+                      </Button>
+                    )}
+                  </>
                 )}
 
                 <Button isSmall onClick={addToFavouritesHandler}>
@@ -318,7 +330,7 @@ function Page({}: Props) {
         isLoading={movieLoading}
         error={movieError}
         header={"You May Also Like"}
-        movies={movieData}
+        movies={movieData?.movies}
       />
 
       <Comments

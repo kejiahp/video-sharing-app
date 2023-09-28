@@ -1,17 +1,18 @@
 "use client";
+import Pagination from "@/components/Pagination/Pagination";
 import Adverts from "@/components/adverts/Adverts";
 import Footer from "@/components/footer/Footer";
 import MovieCategory from "@/components/movies/movie-category/MovieCategory";
 import NewsLetterSubscription from "@/components/newslettersubscription/NewsLetterSubscription";
 import fetcher from "@/libs/fetcher";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 
-type Props = {};
+function Page() {
+  const [page, setPage] = useState(0);
 
-function Page({}: Props) {
   const { isLoading, error, data } = useSWR(
-    `/api/movie/filter?series=true`,
+    `/api/movie/filter?series=true&limit=24&p=${page}`,
     fetcher
   );
 
@@ -27,7 +28,7 @@ function Page({}: Props) {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data?.slice(0, 18)}
+          movies={data?.movies?.slice(0, 6)}
           header={`Series`}
         />
       </div>
@@ -40,7 +41,7 @@ function Page({}: Props) {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data?.slice(18, 36)}
+          movies={data?.movies?.slice(6, 12)}
           header={`Series`}
         />
       </div>
@@ -53,7 +54,7 @@ function Page({}: Props) {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data?.slice(36, 54)}
+          movies={data?.movies?.slice(12, 18)}
           header={`Series`}
         />
       </div>
@@ -66,10 +67,16 @@ function Page({}: Props) {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data?.slice(54)}
+          movies={data?.movies?.slice(18)}
           header={`Series`}
         />
       </div>
+
+      <Pagination
+        pages={data?.pageCount}
+        currentPage={page}
+        setCurrentPage={setPage}
+      />
 
       {adsData && adsData[3] ? (
         <Adverts isLoading={adsLoading} error={adsError} advert={adsData[3]} />

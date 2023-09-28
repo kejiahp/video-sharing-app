@@ -25,7 +25,7 @@ export default function Home({
   }, [searchParams?.message]);
 
   const { isLoading, error, data } = useSWR(
-    `/api/movie/filter?limit=18`,
+    `/api/movie/filter?limit=6`,
     fetcher
   );
 
@@ -33,19 +33,19 @@ export default function Home({
     isLoading: trendingLoading,
     error: trendingError,
     data: trendingData,
-  } = useSWR(`/api/movie/filter?limit=18&trending=true`, fetcher);
+  } = useSWR(`/api/movie/filter?limit=6&trending=true`, fetcher);
 
   const {
     isLoading: seriesLoading,
     error: seriesError,
     data: seriesData,
-  } = useSWR(`/api/movie/filter?limit=18&series=true`, fetcher);
+  } = useSWR(`/api/movie/filter?limit=6&series=true`, fetcher);
 
   const {
     isLoading: comingSoonLoading,
     error: comingSoonError,
     data: comingSoonData,
-  } = useSWR(`/api/movie/filter?limit=18&unavailable=true`, fetcher);
+  } = useSWR(`/api/movie/filter?limit=6&unavailable=true`, fetcher);
 
   const {
     isLoading: adsLoading,
@@ -59,7 +59,7 @@ export default function Home({
       <MovieCategory
         isLoading={trendingLoading}
         error={trendingError}
-        movies={trendingData}
+        movies={trendingData?.movies}
         header="Trending"
         seeMorePath="/movies"
       />
@@ -70,7 +70,7 @@ export default function Home({
       <MovieCategory
         isLoading={isLoading}
         error={error}
-        movies={data}
+        movies={data?.movies}
         header="New Releases"
         seeMorePath="/movies"
       />
@@ -82,7 +82,7 @@ export default function Home({
       <MovieCategory
         isLoading={seriesLoading}
         error={seriesError}
-        movies={seriesData}
+        movies={seriesData?.movies}
         header="Latest Series"
         seeMorePath="/series"
       />
@@ -94,7 +94,7 @@ export default function Home({
       <MovieCategory
         isLoading={comingSoonLoading}
         error={comingSoonError}
-        movies={comingSoonData}
+        movies={comingSoonData?.movies}
         header="Coming Soon"
       />
 

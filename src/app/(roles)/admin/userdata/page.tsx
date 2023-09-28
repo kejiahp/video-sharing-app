@@ -1,11 +1,12 @@
 "use client";
+import Pagination from "@/components/Pagination/Pagination";
 import UserDataItem from "@/components/admin/userdata/UserDataItem";
 import Loader from "@/components/loader/Loader";
 import EmptyState from "@/components/utilities/EmptyState";
 import Input from "@/components/utilities/input/Input";
 import fetcher from "@/libs/fetcher";
 import { IUser } from "@/models/User.model";
-import React from "react";
+import React, { useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import useSWR from "swr";
 
@@ -15,10 +16,13 @@ type PartiallySafeUser = Omit<IUser, "createdAt"> & {
 };
 
 const Page = () => {
-  const { isLoading, data, error } = useSWR<PartiallySafeUser[]>(
-    `/api/userdata`,
-    fetcher
-  );
+  const [page, setPage] = useState(0);
+
+  const { isLoading, data, error } = useSWR<{
+    pageCount: number;
+    count: number;
+    users: PartiallySafeUser[];
+  }>(`/api/userdata?p=${page}`, fetcher);
 
   const {
     register,
@@ -38,7 +42,7 @@ const Page = () => {
     throw new Error("can't fetch users");
   }
 
-  if (!data || data.length <= 0) {
+  if (!data || data?.users.length <= 0) {
     return (
       <EmptyState
         header={"Oh...no Users found 😟"}
@@ -73,7 +77,7 @@ const Page = () => {
 
       <div className="">
         <h1 className="text-2xl text-gray-500 my-4">All Users</h1>
-        {emailFilter(data)
+        {emailFilter(data?.users)
           .filter((item) => item.is_verified === true)
           .map((item, index) => (
             <UserDataItem
@@ -84,6 +88,12 @@ const Page = () => {
               createdAt={item.createdAt}
             />
           ))}
+
+        <Pagination
+          pages={data?.pageCount}
+          currentPage={page}
+          setCurrentPage={setPage}
+        />
       </div>
     </>
   );

@@ -40,7 +40,7 @@ const Footer = () => {
                   link: "https://www.facebook.com/TylerMoviesEmpire",
                 },
                 {
-                  title: "Twitter",
+                  title: "X",
                   link: "https://twitter.com/TYMoviesEmpire?t=HqbXsnX8s7kYsW9L2YK0qg&s=09",
                 },
                 {

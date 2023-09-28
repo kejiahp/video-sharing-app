@@ -1,16 +1,22 @@
 "use client";
+
+import Pagination from "@/components/Pagination/Pagination";
 import MovieItem from "@/components/admin/movies/MovieItem";
 import Loader from "@/components/loader/Loader";
 import EmptyState from "@/components/utilities/EmptyState";
 import fetcher from "@/libs/fetcher";
 import { IMovie } from "@/models/Movie.model";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 
 const Page = () => {
-  const { isLoading, error, data } = useSWR<
-    (Omit<IMovie, "createdAt"> & { _id: string; createdAt: string })[]
-  >("/api/movie", fetcher);
+  const [page, setPage] = useState(0);
+
+  const { isLoading, error, data } = useSWR<{
+    pageCount: number;
+    count: number;
+    movies: (Omit<IMovie, "createdAt"> & { _id: string; createdAt: string })[];
+  }>(`/api/movie?p=${page}`, fetcher);
 
   if (error) {
     throw new Error("Failed to fetch movies");
@@ -20,7 +26,7 @@ const Page = () => {
     return <Loader loading={true} />;
   }
 
-  if (!data || data.length <= 0) {
+  if (!data || data?.movies.length <= 0) {
     return (
       <EmptyState
         header={"Oh...no Movies found 😟"}
@@ -32,7 +38,7 @@ const Page = () => {
   return (
     <>
       <div>
-        {data?.map((item, index) => (
+        {data?.movies?.map((item, index) => (
           <MovieItem
             key={index}
             mainImg={item.mainImg}
@@ -42,6 +48,12 @@ const Page = () => {
           />
         ))}
       </div>
+
+      <Pagination
+        pages={data?.pageCount}
+        currentPage={page}
+        setCurrentPage={setPage}
+      />
     </>
   );
 };

@@ -12,13 +12,27 @@ export async function GET(req: Request) {
     }
     await dbConnect();
 
-    const users = await UserModel.find({ is_verified: true });
+    const newUrl = new URL(req.url);
+    const searchParams = newUrl.searchParams;
+
+    const page = Number(searchParams.get("p")) || 0;
+    const usersPerPage = 12;
+    const skip = page * usersPerPage;
+
+    const count = await UserModel.estimatedDocumentCount();
+    const pageCount = Math.ceil(count / usersPerPage);
+
+    const users = await UserModel.find({ is_verified: true })
+      .skip(skip)
+      .limit(usersPerPage);
 
     if (!users) {
       return new Response("Can't find users", { status: 404 });
     }
 
-    return new Response(JSON.stringify(users), { status: 200 });
+    return new Response(JSON.stringify({ count, pageCount, users }), {
+      status: 200,
+    });
   } catch (err: any) {
     console.log("ERROR GETTING USERS");
     return new Response("Internal Error", { status: 500 });
