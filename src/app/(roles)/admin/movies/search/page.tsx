@@ -13,9 +13,11 @@ const Page = () => {
   const name = searchParams.get("q");
   const encodedURI = encodeURI(name || "");
 
-  const { isLoading, data, error } = useSWR<
-    (Omit<IMovie, "createdAt"> & { createdAt: string; _id: string })[]
-  >(`/api/movie/?q=${encodedURI}`, fetcher);
+  const { isLoading, data, error } = useSWR<{
+    pageCount: number;
+    count: number;
+    movies: (Omit<IMovie, "createdAt"> & { createdAt: string; _id: string })[];
+  }>(`/api/movie/?q=${encodedURI}`, fetcher);
 
   if (error) {
     throw new Error("Failed to fetch movies");
@@ -25,7 +27,7 @@ const Page = () => {
     return <Loader loading={true} />;
   }
 
-  if (!data || data.length <= 0) {
+  if (!data || data?.movies?.length <= 0) {
     return (
       <EmptyState
         header={"Oh...no Movies found 😟"}
@@ -37,7 +39,7 @@ const Page = () => {
   return (
     <>
       <div>
-        {data.map((item, index) => (
+        {data?.movies?.map((item, index) => (
           <MovieItem
             key={index}
             mainImg={item.mainImg}

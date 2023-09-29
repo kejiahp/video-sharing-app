@@ -13,10 +13,11 @@ const Page = () => {
   const name = searchParams.get("q");
   const encodedURI = encodeURI(name || "");
 
-  const { isLoading, data, error } = useSWR<(IMovie & { _id: string })[]>(
-    `/api/movie/?q=${encodedURI}`,
-    fetcher
-  );
+  const { isLoading, data, error } = useSWR<{
+    count: number;
+    pageCount: number;
+    movies: (IMovie & { _id: string })[];
+  }>(`/api/movie/?q=${encodedURI}`, fetcher);
 
   return (
     <div className="mt-8">
@@ -24,7 +25,7 @@ const Page = () => {
         <MovieCategory
           isLoading={isLoading}
           error={error}
-          movies={data!}
+          movies={data?.movies!}
           header={`Search Result for "${name}"`}
         />
       </div>

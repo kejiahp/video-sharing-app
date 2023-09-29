@@ -64,10 +64,14 @@ const Page = () => {
 
   return (
     <>
+      <p className="text-rose-500 font-bold">
+        NOTE:{" "}
+        <span className="text-black font-normal">Searching is page based</span>
+      </p>
       <div className="">
         <Input
           id={"email"}
-          label={"Filter by email"}
+          label={"Search by email"}
           disabled={false}
           required={true}
           errors={errors}

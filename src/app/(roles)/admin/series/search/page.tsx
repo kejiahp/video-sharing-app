@@ -12,13 +12,15 @@ const Page = () => {
   const searchParams = useSearchParams();
   const encodedSearchParams = encodeURIComponent(searchParams.get("q") || "");
 
-  const { isLoading, error, data } = useSWR<
-    (Omit<ISeries, "createdAt" | "movieId"> & {
+  const { isLoading, error, data } = useSWR<{
+    count: number;
+    pageCount: number;
+    series: (Omit<ISeries, "createdAt" | "movieId"> & {
       _id: string;
       movieId: string;
       createdAt: string;
-    })[]
-  >(`/api/series?q=${encodedSearchParams}`, fetcher);
+    })[];
+  }>(`/api/series?q=${encodedSearchParams}`, fetcher);
 
   if (isLoading) {
     return <Loader loading={true} />;
@@ -28,7 +30,7 @@ const Page = () => {
     throw new Error("can't fetch series");
   }
 
-  if (!data || data.length <= 0) {
+  if (!data || data?.series?.length <= 0) {
     return (
       <EmptyState
         header="Oh...no Series found 😟"
@@ -42,7 +44,7 @@ const Page = () => {
   return (
     <>
       <div>
-        {data?.map((item, index) => (
+        {data?.series?.map((item, index) => (
           <SeriesItem
             key={index}
             _id={item._id}
